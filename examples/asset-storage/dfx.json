@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "asset-storage-backend": {
+      "candid": "src/asset-storage-backend/asset-storage-backend.did",
+      "package": "asset-storage-backend",
+      "type": "rust"
+    },
+    "asset-storage-frontend": {
+      "dependencies": [
+        "asset-storage-backend"
+      ],
+      "source": [
+        "src/asset-storage-frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "asset-storage-frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
