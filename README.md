@@ -25,7 +25,7 @@ This repository is perfect for developers looking to learn, build, and experimen
 ## Getting started: 
 
 1. Prerequisites:
-   - Ensure you've set up your environment for ICP development. Kindly check out the [SETUP.md]() file for detailed instructions.
+   - Ensure you've set up your environment for ICP development. Kindly check out the [SETUP.md](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/SETUP.md) file for detailed instructions.
 
 2. Clone the repository:
 ```bash

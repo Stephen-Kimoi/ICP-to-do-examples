@@ -1,7 +1,7 @@
 A list of dfx commands that would assit you in your development process.
 
 ## Content 
-1. ICP Tokens to cycles conversion 
+1. [ICP Tokens to cycles conversion](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
 2. Updating Content Security Policy (CSP)
 
 ### ICP Tokens to cycles conversion: 
