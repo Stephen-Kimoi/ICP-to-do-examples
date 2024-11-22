@@ -1,4 +1,4 @@
-A list of dfx commands that would assit you in your development process.
+Cheat sheet on how to navigate certain things on ICP
 
 ## Content 
 1. [ICP Tokens to cycles conversion](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 

@@ -6,6 +6,8 @@ This repository is perfect for developers looking to learn, build, and experimen
 
 ## Table of Contents: 
 
+Check out the [Cheat Sheet file](CHEATSHEAT.md) on tutorials of how to navigate certain things on ICP.
+
 1. Uploading and Managing Assets on Canisters: 
     - Storing images and files on the ICP
     - Managing assets effectively
@@ -25,7 +27,7 @@ This repository is perfect for developers looking to learn, build, and experimen
 ## Getting started: 
 
 1. Prerequisites:
-   - Ensure you've set up your environment for ICP development. Kindly check out the [SETUP.md](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/SETUP.md) file for detailed instructions.
+   - Ensure you've set up your environment for ICP development. Kindly check out the [Setup File](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/SETUP.md) file for detailed instructions.
 
 2. Clone the repository:
 ```bash
