@@ -14,6 +14,10 @@ npm run start
 
 You can now interact with the application by uploading images and files.
 
+[Image Upload Demo](https://youtu.be/qi8lL2qksX4)
+
+[File Upload Demo](https://youtu.be/0_SWb_8KIn8)
+
 ## 1. Image Storage Implementation: 
 
 ### Backend (Rust): 
