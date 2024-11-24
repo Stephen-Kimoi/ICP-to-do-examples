@@ -1,19 +1,19 @@
 {
   "canisters": {
-    "asset-storage-backend": {
-      "candid": "src/asset-storage-backend/asset-storage-backend.did",
-      "package": "asset-storage-backend",
-      "type": "rust"
+    "asset_storage_backend": {
+    "type": "rust",
+    "package": "asset_storage_backend",
+    "candid": "src/asset_storage_backend/asset_storage_backend.did"
     },
     "asset-storage-frontend": {
       "dependencies": [
-        "asset-storage-backend"
+        "asset_storage_backend"
       ],
       "source": [
-        "src/asset-storage-frontend/dist"
+        "src/asset_storage_frontend/dist"
       ],
       "type": "assets",
-      "workspace": "asset-storage-frontend"
+      "workspace": "asset_storage_frontend"
     }
   },
   "defaults": {
