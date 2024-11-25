@@ -8,7 +8,7 @@ This repository is perfect for developers looking to learn, build, and experimen
 
 Check out the [Cheat Sheet file](CHEATSHEAT.md) on tutorials of how to navigate certain things on ICP.
 
-1. Uploading and Managing Assets on Canisters: 
+1. [Uploading and Managing Assets on Canisters](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/asset-storage): 
     - Storing images and files on the ICP
     - Managing assets effectively
 

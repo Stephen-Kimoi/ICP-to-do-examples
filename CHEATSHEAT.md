@@ -4,7 +4,7 @@ Cheat sheet on how to navigate certain things on ICP
 1. [ICP Tokens to cycles conversion](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
 2. Updating Content Security Policy (CSP)
 
-### ICP Tokens to cycles conversion: 
+## ICP Tokens to cycles conversion: 
 Commands for converting ICP tokens to cycles.
 
 Step 1: Get your identity principal ID: 
@@ -38,4 +38,11 @@ dfx deploy --network ic
 Step 1a: Deposit cycles into your created canister: 
 ```bash
 dfx canister --network ic deposit-cycles 1_000_000_000_000 <canister_id>
+```
+
+## Updating Content Security Policy (CSP):
+
+Re-deploy the canister while re-isntalling the code 
+```bash
+dfx deploy --network ic --mode reinstall 
 ```
