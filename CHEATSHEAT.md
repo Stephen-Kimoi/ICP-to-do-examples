@@ -76,5 +76,5 @@ dfx canister id <canister_name> --network ic
 
 Step 4: Upgrade your canister using the following command:
 ```bash
-dfx canister --network ic install 4c3lo-haaaa-aaaam-adi5q-cai --mode upgrade --wasm .dfx/ic/canisters/<canister_name>/<canister_name>.wasm
+dfx canister --network ic install <canister_one> --mode upgrade --wasm .dfx/ic/canisters/<canister_name>/<canister_name>.wasm
 ```
