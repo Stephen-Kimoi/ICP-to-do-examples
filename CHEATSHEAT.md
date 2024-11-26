@@ -2,7 +2,8 @@ Cheat sheet on how to navigate certain things on ICP
 
 ## Content 
 1. [ICP Tokens to cycles conversion](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
-2. Updating Content Security Policy (CSP)
+2. Canister Upgrade on rust while using stable structures 
+<!-- 2. Updating Content Security Policy (CSP) -->
 
 ## ICP Tokens to cycles conversion: 
 Commands for converting ICP tokens to cycles.
@@ -45,4 +46,35 @@ dfx canister --network ic deposit-cycles 1_000_000_000_000 <canister_id>
 Re-deploy the canister while re-isntalling the code 
 ```bash
 dfx deploy --network ic --mode reinstall 
+```
+
+## Canister Upgrade on rust while using stable structures:
+
+Step 1: First, make sure you have built your project to generate the latest Wasm file
+```bash
+dfx build <canister_name> --network ic
+```
+
+Step 2: Check the current path to your wasm file: 
+```bash
+find . -name "<canister_name>.wasm" 
+```
+
+You'll see something like this:
+```bash
+./target/wasm32-unknown-unknown/release/<canister_name>.wasm
+./target/wasm32-unknown-unknown/release/deps/<canister_name>.wasm
+./.dfx/playground/canisters/canister_one/<canister_name>.wasm
+./.dfx/local/canisters/canister_one/<canister_name>.wasm
+./.dfx/ic/canisters/canister_one/<canister_name>.wasm
+```
+
+Step 3: Check your canister ID:
+```bash
+dfx canister id <canister_name> --network ic  
+```
+
+Step 4: Upgrade your canister using the following command:
+```bash
+dfx canister --network ic install 4c3lo-haaaa-aaaam-adi5q-cai --mode upgrade --wasm .dfx/ic/canisters/<canister_name>/<canister_name>.wasm
 ```
