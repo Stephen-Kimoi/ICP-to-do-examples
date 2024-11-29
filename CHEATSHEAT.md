@@ -4,6 +4,7 @@ Cheat sheet on how to navigate certain things on ICP
 1. [ICP Tokens to cycles conversion](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
 2. Canister Upgrade on rust while using stable structures 
 <!-- 2. Updating Content Security Policy (CSP) -->
+<!-- 3. Things to note about pre-upgrade and post-upgrade hooks, how to utilize them with stable memory  -->
 
 ## ICP Tokens to cycles conversion: 
 Commands for converting ICP tokens to cycles.
@@ -50,7 +51,9 @@ dfx deploy --network ic --mode reinstall
 
 ## Canister Upgrade on rust while using stable structures:
 
-Step 1: First, make sure you have built your project to generate the latest Wasm file
+Step 1: First of all, Ensure that you've used stable memory to store your data. Check out the full documentation on stable memory [here](https://github.com/seniorjoinu/ic-stable-memory) 
+
+Step 2: Build your project to generate the latest Wasm file, also ensure you've generated the lastest did files. 
 ```bash
 dfx build <canister_name> --network ic
 ```
@@ -78,3 +81,5 @@ Step 4: Upgrade your canister using the following command:
 ```bash
 dfx canister --network ic install <canister_id> --mode upgrade --wasm .dfx/ic/canisters/<canister_name>/<canister_name>.wasm
 ```
+
+Check out the official Internet Computer documentation on [canister upgrades](https://internetcomputer.org/docs/current/tutorials/developer-journey/level-2/2.1-storage-persistence#upgrading-canisters)
