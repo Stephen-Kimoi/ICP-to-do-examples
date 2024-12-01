@@ -50,6 +50,31 @@ class AuthManager {
     return balance;
   }
 
+  async transferICP(toPrincipal, amount) {
+    if (!this.ledgerCanister) return null;
+    
+    const toAccount = {
+      owner: Principal.fromText(toPrincipal),
+      subaccount: [], // default subaccount
+    };
+
+    const transferAmount = BigInt(Math.floor(amount * 100000000)); // Convert to e8s
+
+    const request = {
+      to: toAccount,
+      amount: transferAmount,
+      createdAt: BigInt(Date.now() * 1000000), // Convert to nanoseconds
+    };
+
+    try {
+      const blockHeight = await this.ledgerCanister.icrc1Transfer(request);
+      return blockHeight;
+    } catch (error) {
+      console.error('Transfer failed:', error);
+      throw error;
+    }
+  }
+
   async login() {
     return new Promise(async (resolve) => {
       await this.authClient?.login({

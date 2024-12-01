@@ -7,6 +7,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState('balance');
   const [principalID, setPrincipalID] = useState('');
+  const [transferStatus, setTransferStatus] = useState('');
+  const [isTransferring, setIsTransferring] = useState(false);
   const [balances, setBalances] = useState({
     ICP: '0.00',
     INWT: '0.00'
@@ -15,6 +17,27 @@ function App() {
   useEffect(() => {
     initAuth();
   }, []);
+
+  const handleTransfer = async (event) => {
+    event.preventDefault();
+    setIsTransferring(true);
+    setTransferStatus('');
+
+    const recipientAddress = event.target.elements.address.value;
+    const amount = parseFloat(event.target.elements.amount.value);
+    const selectedToken = event.target.elements.token.value;
+
+    if (selectedToken === 'ICP') {
+      try {
+        const blockHeight = await authManager.transferICP(recipientAddress, amount);
+        setTransferStatus(`Transfer successful! Block height: ${blockHeight}`);
+        await updateBalance(); // Refresh balance after transfer
+      } catch (error) {
+        setTransferStatus(`Transfer failed: ${error.message}`);
+      }
+    }
+    setIsTransferring(false);
+  };
 
   const initAuth = async () => {
     const isAuthenticated = await authManager.init();
@@ -114,29 +137,42 @@ function App() {
       )}
 
       {activeTab === 'send' && (
-        <div className="send-section">
-          <form className="transfer-form">
-            <select className="token-select">
-              <option value="ICP">ICP</option>
-              <option value="INWT">INWT</option>
-            </select>
-            <input 
-              type="text" 
-              placeholder="Recipient Address"
-              className="address-input"
-            />
-            <input 
-              type="number" 
-              placeholder="Amount"
-              className="amount-input"
-              min="0"
-              step="0.01"
-            />
-            <button type="submit" className="send-button">
-              Send Tokens
-            </button>
-          </form>
-        </div>
+         <div className="send-section">
+         <form className="transfer-form" onSubmit={handleTransfer}>
+           <select className="token-select" name="token">
+             <option value="ICP">ICP</option>
+             <option value="INWT">INWT</option>
+           </select>
+           <input 
+             type="text" 
+             placeholder="Recipient Principal ID"
+             className="address-input"
+             name="address"
+             required
+           />
+           <input 
+             type="number" 
+             placeholder="Amount"
+             className="amount-input"
+             name="amount"
+             min="0"
+             step="0.00000001"
+             required
+           />
+           <button 
+             type="submit" 
+             className="send-button"
+             disabled={isTransferring}
+           >
+             {isTransferring ? 'Sending...' : 'Send Tokens'}
+           </button>
+           {transferStatus && (
+             <div className={`transfer-status ${transferStatus.includes('failed') ? 'error' : 'success'}`}>
+               {transferStatus}
+             </div>
+           )}
+         </form>
+       </div>
       )}
 
       {activeTab === 'receive' && (
