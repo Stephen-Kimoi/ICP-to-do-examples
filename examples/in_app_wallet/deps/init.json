@@ -1,0 +1,8 @@
+{
+  "canisters": {
+    "rdmx6-jaaaa-aaaaa-aaadq-cai": {
+      "arg_str": "(opt record { captcha_config = opt record { max_unsolved_captchas= 50:nat64; captcha_trigger = variant {Static = variant {CaptchaDisabled}}}})",
+      "arg_raw": "4449444c0f6e016c05caed93df0402dfe1a5de0704f7f5cbfb0707e78894860d08f8d995c60f0d6e036c02007801786e056c04c3f9fca002788beea8c5047881cfaef40a0687eb979d0d7a6d7b6e786e096c02df81eaae0978f3af928a0f0a6b02df8e9b1b0bcea1c1d4030c6c03e6f0e2d00378cd9a9ccf097ab8d4cdd70d786b02b6ddbbbf047f87b9cd82097f6e0e6c02d5f5c5e909789fedfdc50d78010001000000013200000000000000010000"
+    }
+  }
+}

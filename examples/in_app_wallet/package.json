@@ -14,5 +14,13 @@
   "type": "module",
   "workspaces": [
     "src/in_app_wallet_frontend"
-  ]
+  ],
+  "dependencies": {
+    "@dfinity/agent": "^2.1.3",
+    "@dfinity/auth-client": "^2.1.3",
+    "@dfinity/candid": "^2.1.3",
+    "@dfinity/ledger-icp": "^2.6.4",
+    "@dfinity/principal": "^2.1.3",
+    "@dfinity/utils": "^2.7.1"
+  }
 }

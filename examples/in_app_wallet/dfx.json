@@ -1,5 +1,9 @@
 {
   "canisters": {
+    "internet_identity" : {
+      "type": "pull",
+      "id": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+    }, 
     "in_app_wallet_backend": {
       "candid": "src/in_app_wallet_backend/in_app_wallet_backend.did",
       "package": "in_app_wallet_backend",
