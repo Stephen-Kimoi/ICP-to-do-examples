@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { tokens_intergration_backend } from 'declarations/tokens-intergration-backend';
+import { in_app_wallet_backend } from 'declarations/in_app_wallet_backend';
 
 function App() {
   const [greeting, setGreeting] = useState('');
@@ -7,7 +7,7 @@ function App() {
   function handleSubmit(event) {
     event.preventDefault();
     const name = event.target.elements.name.value;
-    tokens_intergration_backend.greet(name).then((greeting) => {
+    in_app_wallet_backend.greet(name).then((greeting) => {
       setGreeting(greeting);
     });
     return false;

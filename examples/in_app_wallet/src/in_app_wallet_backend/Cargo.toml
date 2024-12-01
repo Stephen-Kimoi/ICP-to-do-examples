@@ -1,5 +1,5 @@
 [package]
-name = "tokens-intergration-backend"
+name = "in_app_wallet_backend"
 version = "0.1.0"
 edition = "2021"
 

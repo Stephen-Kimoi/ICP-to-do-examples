@@ -1,10 +1,10 @@
 {
-  "name": "tokens-intergration-frontend",
+  "name": "in_app_wallet_frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "setup": "npm i && dfx canister create tokens-intergration-backend && dfx generate tokens-intergration-backend && dfx deploy",
+    "setup": "npm i && dfx canister create in_app_wallet_backend && dfx generate in_app_wallet_backend && dfx deploy",
     "start": "vite --port 3000",
     "prebuild": "dfx generate",
     "build": "tsc && vite build",

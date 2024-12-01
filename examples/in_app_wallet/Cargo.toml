@@ -1,5 +1,5 @@
 [workspace]
 members = [
-    "src/tokens-intergration-backend"
+    "src/in_app_wallet_backend"
 ]
 resolver = "2"
