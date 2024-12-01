@@ -27,33 +27,38 @@ function App() {
     const amount = parseFloat(event.target.elements.amount.value);
     const selectedToken = event.target.elements.token.value;
 
-    if (selectedToken === 'ICP') {
-      try {
-        const blockHeight = await authManager.transferICP(recipientAddress, amount);
-        setTransferStatus(`Transfer successful! Block height: ${blockHeight}`);
-        await updateBalance(); // Refresh balance after transfer
-      } catch (error) {
-        setTransferStatus(`Transfer failed: ${error.message}`);
+    try {
+      let blockHeight;
+      if (selectedToken === 'ICP') {
+        blockHeight = await authManager.transferICP(recipientAddress, amount);
+      } else if (selectedToken === 'INWT') {
+        blockHeight = await authManager.transferINWT(recipientAddress, amount);
       }
+      
+      setTransferStatus(`Transfer successful! Block height: ${blockHeight}`);
+      await updateBalances();
+    } catch (error) {
+      setTransferStatus(`Transfer failed: ${error.message}`);
+    } finally {
+      setIsTransferring(false);
     }
-    setIsTransferring(false);
   };
 
   const initAuth = async () => {
     const isAuthenticated = await authManager.init();
     setIsLoggedIn(isAuthenticated);
     if (isAuthenticated) {
-      await updateBalance();
+      await updateBalances();
       getIdentity();
     }
   };
 
-  const updateBalance = async () => {
-    const icpBalance = await authManager.getBalance();
-    setBalances(prev => ({
-      ...prev,
-      ICP: (Number(icpBalance.toString()) / 100000000).toFixed(4)
-    }));
+  const updateBalances = async () => {
+    const balances = await authManager.getBalances();
+    setBalances({
+      ICP: (Number(balances.ICP) / 100000000).toFixed(4),
+      INWT: (Number(balances.INWT) / 100000000).toFixed(4)
+    });
   };
 
   const getIdentity = () => {
