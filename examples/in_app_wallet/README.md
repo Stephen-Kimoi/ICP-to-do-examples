@@ -1,61 +1,120 @@
-# `in_app_wallet`
+# Building an In-App Wallet on the Internet Computer
 
-Welcome to your new `in_app_wallet` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+This guide walks you through creating a full-featured in-app wallet that supports both ICP and custom ICRC-2 tokens.
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+## Introduction
+The Internet Computer supports various wallet types, from basic to advanced implementations. Learn more about wallets on ICP here:
+- [ICP Wallet Overview](https://internetcomputer.org/docs/current/developer-docs/defi/wallets/overview)
 
-To learn more before you start working with `in_app_wallet`, see the following documentation available online:
+## Step 1: Create Your Custom ICRC-2 Token
+You have two options for creating your custom token:
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Rust Canister Development Guide](https://internetcomputer.org/docs/current/developer-docs/backend/rust/)
-- [ic-cdk](https://docs.rs/ic-cdk)
-- [ic-cdk-macros](https://docs.rs/ic-cdk-macros)
-- [Candid Introduction](https://internetcomputer.org/docs/current/developer-docs/backend/candid/)
+### Option A: Manual Token Creation
+1. Follow the [official ICP token creation guide](https://internetcomputer.org/docs/current/developer-docs/defi/tokens/create)
+2. Reference this [example ICRC-2 token implementation](https://github.com/Stephen-Kimoi/example-icrc2-token)
 
-If you want to start working on your project right away, you might want to try the following commands:
+### Option B: No-Code Token Creation
+Use [ICPex Token Creator](https://icpex.org/createToken) to create your token without writing code.
 
+## Step 2: Integrate ICP Token Support
+
+### Installation
 ```bash
-cd in_app_wallet/
-dfx help
-dfx canister --help
+npm i @dfinity/ledger-icp
+npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
+``` 
+
+### Basic Integration
+1. Initialize the ICP ledger:
+```typescript
+import { LedgerCanister } from "@dfinity/ledger-icp";
+
+const ledgerCanister = LedgerCanister.create({
+  agent,
+  canisterId: LEDGER_CANISTER_ID,
+});
+``` 
+
+2. Fetch balances:
+```typescript
+const balance = await ledgerCanister.accountBalance({
+  accountIdentifier,
+  certified: true,
+});
 ```
 
-## Running the project locally
+3. Transfer tokens:
+```typescript
+const blockHeight = await ledgerCanister.icrc1Transfer({
+  to: recipientAccount,
+  amount: transferAmount,
+});
+``` 
 
-If you want to test your project locally, you can use the following commands:
-
-```bash
-# Starts the replica, running in the background
-dfx start --background
-
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
-
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
-
-If you have made changes to your backend canister, you can generate a new candid interface with
+## Step 3: Integrate Your Custom ICRC Token
+### Installation
 
 ```bash
-npm run generate
-```
+npm i @dfinity/ledger-icrc
+``` 
 
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
 
-If you are making frontend changes, you can start a development server with
+### Basic Integration
 
+1. Initialize the ICRC ledger:
+```typescript
+import { IcrcLedgerCanister } from "@dfinity/ledger-icrc";
+
+const icrcLedger = IcrcLedgerCanister.create({
+  agent,
+  canisterId: YOUR_TOKEN_CANISTER_ID,
+});
+``` 
+
+2. Fetch token balances:
+```typescript
+const balance = await icrcLedger.balance({
+  owner: principal,
+});
+``` 
+
+3. Transfer tokens:
+```typescript
+const blockHeight = await icrcLedger.transfer({
+  to: {
+    owner: recipientPrincipal,
+    subaccount: [],
+  },
+  amount: transferAmount,
+});
+``` 
+
+## Project Structure: 
+
+```bash 
+src/
+├── in_app_wallet_frontend/
+│   ├── src/
+│   │   ├── App.jsx        # Main wallet interface
+│   │   ├── auth.js        # Authentication & token operations
+│   │   └── App.css        # Styling
+│   └── ...
+└── ...
+``` 
+
+## Key features: 
+- Internet Identity authentication
+- ICP token integration
+- Custom ICRC-2 token support
+- Token balance display
+- Token transfer functionality
+- Transaction status tracking
+
+## Development Setup: 
+1. Clone the repository
+2. Install dependencies:
 ```bash
-npm start
+npm install
 ```
 
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
-
-### Note on frontend environment variables
-
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
-
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+## Resources: 
