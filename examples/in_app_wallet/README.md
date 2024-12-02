@@ -113,38 +113,72 @@ async getBalances() {
 ### Installation
 
 ```bash
-npm i @dfinity/ledger-icrc
+npm i @dfinity/ledger-icrc 
+npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 ``` 
-
 
 ### Basic Integration
 
-1. Initialize the ICRC ledger:
+1. Initialize the ICRC ledger. Check out the function [here](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/971e735594ba364c107d06590a234f919f28a954/examples/in_app_wallet/src/in_app_wallet_frontend/src/auth.js#L41)
 ```typescript
 import { IcrcLedgerCanister } from "@dfinity/ledger-icrc";
+import { Principal } from "@dfinity/principal";
 
-const icrcLedger = IcrcLedgerCanister.create({
-  agent,
-  canisterId: YOUR_TOKEN_CANISTER_ID,
-});
+// Your custom ICRC-2 token canister ID
+const INWT_CANISTER_ID = "lradw-laaaa-aaaam-acrda-cai"; 
+
+async initLedgers() {
+  const identity = this.authClient.getIdentity();
+  // Previous code... 
+
+  // Initialize INWT ledger
+  this.icrcLedgerCanister = IcrcLedgerCanister.create({
+      agent,
+      canisterId: Principal.fromText(INWT_CANISTER_ID),
+  });
+}
 ``` 
 
-2. Fetch token balances:
+2. Fetch custom token balances. Check out the function [here](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/971e735594ba364c107d06590a234f919f28a954/examples/in_app_wallet/src/in_app_wallet_frontend/src/auth.js#L58)
 ```typescript
-const balance = await icrcLedger.balance({
-  owner: principal,
-});
+async getBalances() {
+  const identity = this.getIdentity();
+  const principal = identity.getPrincipal();
+  
+  // Previous code...
+
+  const inwtBalance = await this.icrcLedgerCanister?.balance({
+      owner: principal,
+  }) || BigInt(0);
+
+  // Console log the custom token balance
+}
 ``` 
 
-3. Transfer tokens:
+3. Transfer custom token from one account to another. Check out the function [here](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/971e735594ba364c107d06590a234f919f28a954/examples/in_app_wallet/src/in_app_wallet_frontend/src/auth.js#L93)
 ```typescript
-const blockHeight = await icrcLedger.transfer({
-  to: {
-    owner: recipientPrincipal,
-    subaccount: [],
-  },
-  amount: transferAmount,
-});
+async transferINWT(toPrincipal, amount) {
+  if (!this.icrcLedgerCanister) return null;
+
+  const transferAmount = BigInt(Math.floor(amount * 100000000)); // Assuming 8 decimals
+
+  const request = {
+    to: {
+      owner: Principal.fromText(toPrincipal),
+      subaccount: [],
+    },
+    amount: transferAmount,
+    created_at_time: BigInt(Date.now() * 1000000),
+  };
+
+  try {
+    const blockHeight = await this.icrcLedgerCanister.transfer(request);
+    return blockHeight;
+  } catch (error) {
+    console.error('INWT Transfer failed:', error);
+    throw error;
+  }
+}
 ``` 
 
 ## Project Structure: 
