@@ -25,33 +25,91 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 ``` 
 
 ### Basic Integration
-1. Initialize the ICP ledger:
+1. Initializing the ICP ledger. Check out function [here](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/971e735594ba364c107d06590a234f919f28a954/examples/in_app_wallet/src/in_app_wallet_frontend/src/auth.js#L26)
 ```typescript
+// Import the ledger canister
 import { LedgerCanister } from "@dfinity/ledger-icp";
+import { AuthClient } from "@dfinity/auth-client"; 
+import { Principal } from "@dfinity/principal";
 
-const ledgerCanister = LedgerCanister.create({
-  agent,
-  canisterId: LEDGER_CANISTER_ID,
-});
+// ICP Ledger Canister ID
+const LEDGER_CANISTER_ID = "ryjl3-tyaaa-aaaaa-aaaba-cai"; 
+
+// Initialize the ledger canister
+async init() {
+  this.authClient = await AuthClient.create();
+  if (this.authClient.isAuthenticated()) {
+      await this.initLedgers();
+  }
+  return this.authClient.isAuthenticated();
+}
+
+async initLedgers() {
+    const identity = this.authClient.getIdentity();
+    const agent = await createAgent({
+        identity,
+        // host: process.env.DFX_NETWORK === 'ic' ? 'https://icp-api.io' : 'http://localhost:4943',
+        host: 'https://icp-api.io'
+    });
+
+    // Initialize ICP ledger
+    this.ledgerCanister = LedgerCanister.create({
+        agent,
+        canisterId: Principal.fromText(LEDGER_CANISTER_ID),
+    });
+
+    // Rest of code... 
+}
 ``` 
 
-2. Fetch balances:
+2. Fetch ICP balance, check out the function [here](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/971e735594ba364c107d06590a234f919f28a954/examples/in_app_wallet/src/in_app_wallet_frontend/src/auth.js#L47)
 ```typescript
-const balance = await ledgerCanister.accountBalance({
-  accountIdentifier,
-  certified: true,
-});
+async getBalances() {
+  const identity = this.getIdentity();
+  const principal = identity.getPrincipal();
+
+  const icpBalance = await this.ledgerCanister?.accountBalance({
+      accountIdentifier: AccountIdentifier.fromPrincipal({
+      principal: principal,
+      }),
+      certified: true,
+  }) || BigInt(0);
+
+  // Console log the ICP balance
+
+  //  Rest of code... 
+}
 ```
 
-3. Transfer tokens:
+3. Transfer ICP token, check out the function [here](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/971e735594ba364c107d06590a234f919f28a954/examples/in_app_wallet/src/in_app_wallet_frontend/src/auth.js#L68)
 ```typescript
-const blockHeight = await ledgerCanister.icrc1Transfer({
-  to: recipientAccount,
-  amount: transferAmount,
-});
+  async transferICP(toPrincipal, amount) {
+    if (!this.ledgerCanister) return null;
+    
+    const toAccount = {
+      owner: Principal.fromText(toPrincipal),
+      subaccount: [], // default subaccount
+    };
+
+    const transferAmount = BigInt(Math.floor(amount * 100000000)); // Convert to e8s
+
+    const request = {
+      to: toAccount,
+      amount: transferAmount,
+      createdAt: BigInt(Date.now() * 1000000), // Convert to nanoseconds
+    };
+
+    try {
+      const blockHeight = await this.ledgerCanister.icrc1Transfer(request);
+      return blockHeight;
+    } catch (error) {
+      console.error('Transfer failed:', error);
+      throw error;
+    }
+  }
 ``` 
 
-## Step 3: Integrate Your Custom ICRC Token
+## Step 3: Integrating Your Custom ICRC Token
 ### Installation
 
 ```bash
