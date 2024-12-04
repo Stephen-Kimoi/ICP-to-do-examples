@@ -6,7 +6,7 @@ This guide walks you through creating a full-featured in-app wallet that support
 The Internet Computer supports various wallet types, from basic to advanced implementations. Learn more about wallets on ICP here:
 - [ICP Wallet Overview](https://internetcomputer.org/docs/current/developer-docs/defi/wallets/overview)
 
-## Step 1: Create Your Custom ICRC-2 Token
+## Step 1(a): Create Your Custom ICRC-2 Token
 You have two options for creating your custom token:
 
 ### Option A: Manual Token Creation
@@ -15,6 +15,17 @@ You have two options for creating your custom token:
 
 ### Option B: No-Code Token Creation
 Use [ICPex Token Creator](https://icpex.org/createToken) to create your token without writing code.
+
+## Step 1(b): Clone the repository: 
+```bash
+git clone https://github.com/Stephen-Kimoi/ICP-to-do-examples.git
+cd examples/in_app_wallet
+
+npm install
+
+npm start
+```
+Then check out ``http://localhost:3000`` in your browser.
 
 ## Step 2: Integrate ICP Token Support
 
