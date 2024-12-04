@@ -11,7 +11,8 @@ Check out the [Cheat Sheet file](CHEATSHEAT.md) on tutorials of how to navigate 
 1. [Uploading and Managing Assets on Canisters](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/asset-storage): 
     - Storing images and files on the ICP
     - Managing assets effectively
-
+    
+<!-- 
 2. Integrating Tokens in Your Project/dApp:
     - Understanding token standards
     - Adding token integration to canisters and frontends
@@ -23,6 +24,9 @@ Check out the [Cheat Sheet file](CHEATSHEAT.md) on tutorials of how to navigate 
 4. Linking Your Site to a Domain
     - Key considerations for domain setup
     - Linking domains to canister-based websites
+
+5. Persisiting data across canister upgrades
+    - Ensuring data persistence during upgrades -->
 
 ## Getting started: 
 

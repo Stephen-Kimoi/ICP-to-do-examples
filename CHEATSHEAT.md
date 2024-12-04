@@ -2,7 +2,7 @@ Cheat sheet on how to navigate certain things on ICP
 
 ## Content 
 1. [ICP Tokens to cycles conversion](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
-2. Canister Upgrade on rust while using stable structures 
+2. [Canister Upgrade on rust while using stable structures](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#canister-upgrade-on-rust-while-using-stable-structures)
 <!-- 2. Updating Content Security Policy (CSP) -->
 <!-- 3. Things to note about pre-upgrade and post-upgrade hooks, how to utilize them with stable memory  -->
 
