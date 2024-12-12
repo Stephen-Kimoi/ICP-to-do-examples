@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "data_persistence_backend": {
+      "candid": "src/data_persistence_backend/data_persistence_backend.did",
+      "package": "data_persistence_backend",
+      "type": "rust"
+    },
+    "data_persistence_frontend": {
+      "dependencies": [
+        "data_persistence_backend"
+      ],
+      "source": [
+        "src/data_persistence_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "data_persistence_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
