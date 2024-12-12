@@ -1,3 +1,13 @@
+type Note = record {
+  id : nat64;
+  title : text;
+  content : text;
+  created_at : nat64;
+};
 service : {
-    "greet": (text) -> (text) query;
+  create_note : (text, text) -> (Note);
+  delete_note : (nat64) -> (bool);
+  get_note : (nat64) -> (opt Note) query;
+  list_notes : () -> (vec Note) query;
+  update_note : (nat64, text, text) -> (opt Note);
 }
