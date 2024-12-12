@@ -10,14 +10,13 @@ Check out the [Cheat Sheet file](CHEATSHEAT.md) on tutorials of how to navigate 
 
 1. [Uploading and Managing Assets on Canisters](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/asset-storage): 
     - Storing images and files on the ICP
-    - Managing assets effectively
-    
-<!-- 
-2. Integrating Tokens in Your Project/dApp:
+    - Managing assets effectively   
+
+2. Integrating Tokens in Your Project/dApp[](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/in_app_wallet):
     - Understanding token standards
     - Adding token integration to canisters and frontends
 
-3. Linking Tokens with a Backend Canister
+<!-- 3. Linking Tokens with a Backend Canister
     - Integrating tokens with backend logic
     - Secure and efficient token management
 
