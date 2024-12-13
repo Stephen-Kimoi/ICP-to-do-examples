@@ -7,6 +7,7 @@ use ic_stable_structures::memory_manager::{MemoryId, MemoryManager, VirtualMemor
 use ic_stable_structures::{BoundedStorable, Cell, DefaultMemoryImpl, StableBTreeMap, Storable};
 use std::{borrow::Cow, cell::RefCell};
 use serde::{Deserialize, Serialize};
+use ic_cdk::storage; 
 
 /// Type alias for our memory implementation using VirtualMemory with DefaultMemoryImpl
 type Memory1 = VirtualMemory<DefaultMemoryImpl>;
@@ -41,7 +42,7 @@ impl BoundedStorable for Note {
     const IS_FIXED_SIZE: bool = false;
 }
 
-/// Thread-local storage for our stable memory structures
+// Thread-local storage for our stable memory structures
 thread_local! {
     /// Memory manager using DefaultMemoryImpl
     static MEMORY_MANAGER: RefCell<MemoryManager<DefaultMemoryImpl>> = RefCell::new(
@@ -154,6 +155,43 @@ fn list_notes() -> Vec<Note> {
             .map(|(_, note)| note.clone())
             .collect()
     })
+}
+
+/// Save stable memory state before the canister is upgraded
+#[ic_cdk::pre_upgrade]
+fn pre_upgrade() {
+    let notes: Vec<(u64, Note)> = NOTE_MAP.with(|notes| {
+        notes
+            .borrow()
+            .iter()
+            .map(|(key, value)| (key, value.clone()))
+            .collect()
+    });
+    let counter_value = COUNTER.with(|counter| *counter.borrow().get());
+
+    storage::stable_save((notes, counter_value)).expect("Failed to save stable state");
+}
+
+/// Restore stable memory state after the canister is upgraded
+#[ic_cdk::post_upgrade]
+fn post_upgrade() {
+    match storage::stable_restore::<(Vec<(u64, Note)>, u64)>() {
+        Ok((notes, counter_value)) => {
+            NOTE_MAP.with(|map| {
+                let mut map = map.borrow_mut();
+                for (key, value) in notes {
+                    map.insert(key, value);
+                }
+            });
+
+            COUNTER.with(|counter| {
+                counter.borrow_mut().set(counter_value).expect("Failed to restore counter");
+            });
+        }
+        Err(e) => {
+            ic_cdk::println!("Failed to restore stable state: {:?}", e);
+        }
+    }
 }
 
 // Required for Candid interface generation
