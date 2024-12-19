@@ -82,4 +82,9 @@ Step 4: Upgrade your canister using the following command:
 dfx canister --network ic install <canister_id> --mode upgrade --wasm .dfx/ic/canisters/<canister_name>/<canister_name>.wasm
 ```
 
+Step 6: Frontend canister upgrade: 
+```bash 
+dfx canister install frontend_canister_name --mode upgrade --network ic
+```
+
 Check out the official Internet Computer documentation on [canister upgrades](https://internetcomputer.org/docs/current/tutorials/developer-journey/level-2/2.1-storage-persistence#upgrading-canisters)
