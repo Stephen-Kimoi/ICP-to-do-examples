@@ -5,13 +5,13 @@ Thank you for your interest in contributing to the Internet Computer Development
 How to Contribute: 
 
 ### 1. Clone the Repository: 
-```
+```bash
 git clone https://github.com/Stephen-Kimoi/ICP-to-do-examples.git 
 cd ICP-to-do-examples 
 ``` 
 
 ### 2. Create a New Branch: 
-```
+```bash
 git checkout -b feature/your-feature-name
 ``` 
 
