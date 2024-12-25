@@ -81,8 +81,12 @@ Step 4: Upgrade your canister using the following command:
 ```bash
 dfx canister --network ic install <canister_id> --mode upgrade --wasm .dfx/ic/canisters/<canister_name>/<canister_name>.wasm
 ```
-
-Step 6: Frontend canister upgrade: 
+### Upgrading a frontend canister:
+Step 1: Ensure you've built your frontend canister:
+```bash
+dfx build frontend_canister_name --network ic  
+```
+Step 2: Function for upgrading the frontend canister: 
 ```bash 
 dfx canister install frontend_canister_name --mode upgrade --network ic
 ```
