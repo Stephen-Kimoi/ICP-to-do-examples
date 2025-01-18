@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "tokens-intergration-backend": {
+      "candid": "src/tokens-intergration-backend/tokens-intergration-backend.did",
+      "package": "tokens-intergration-backend",
+      "type": "rust"
+    },
+    "tokens-intergration-frontend": {
+      "dependencies": [
+        "tokens-intergration-backend"
+      ],
+      "source": [
+        "src/tokens-intergration-frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "tokens-intergration-frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

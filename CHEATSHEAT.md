@@ -26,6 +26,11 @@ Step 4: Convert ICP tokens to cycles using the following command:
 dfx cycles convert --amount 0.7 --network ic
 ```
 
+Step 6: Check your cycles balance:
+```bash
+dfx cycles balance --network ic
+```
+
 Step 5: Create your canister on ICP mainnet with the amount of cycles 
 ```bash 
  dfx canister --network ic create --with-cycles 1_000_000_000_000 <canister_name> 
