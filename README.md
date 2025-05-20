@@ -18,6 +18,9 @@ Check out the [Cheat Sheet file](CHEATSHEAT.md) on tutorials of how to navigate 
 3. [Persisiting data across canister upgrades](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/data_persistence)
     - Implementing data persistence across canister upgrades using rust
 
+4. [Connecting custom domain to canister URL](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/canister-dns): 
+    - Easily connect your custom domain to your canister URL, supporting both main domains and subdomains.
+
 <!-- 3. Linking Tokens with a Backend Canister
     - Integrating tokens with backend logic
     - Secure and efficient token management
