@@ -96,4 +96,16 @@ This will:
 2. Extract and generate the Candid file
 3. Save it as <canister_name>.did
 
+#### Prerequisites: 
+Ensure you've installed [candid extractor](https://github.com/dfinity/candid): 
+```bash
+cargo install candid-extractor
+```
+
+And added it to your ``lib.rs`` like this: 
+```rust
+// Required for Candid interface generation
+ic_cdk::export_candid!();
+```
+
 Check out the package over [here](https://crates.io/crates/generate-did)
