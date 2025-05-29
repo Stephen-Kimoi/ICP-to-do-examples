@@ -3,6 +3,7 @@ Cheat sheet on how to navigate certain things on ICP
 ## Content 
 1. [ICP Tokens to cycles conversion](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
 2. [Canister Upgrade on rust while using stable structures](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#canister-upgrade-on-rust-while-using-stable-structures)
+3. [Generating .did files in rust]()
 <!-- 2. Updating Content Security Policy (CSP) -->
 <!-- 3. Things to note about pre-upgrade and post-upgrade hooks, how to utilize them with stable memory  -->
 
@@ -59,41 +60,22 @@ dfx deploy --network ic --mode reinstall
 Step 1: First of all, Ensure that you've used stable memory to store your data. Check out the full documentation on stable memory [here](https://github.com/seniorjoinu/ic-stable-memory) 
 
 Step 2: Build your project to generate the latest Wasm file, also ensure you've generated the lastest did files. 
-```bash
-dfx build <canister_name> --network ic
-```
 
-Step 2: Check the current path to your wasm file: 
+You can do this using one simple command: 
 ```bash
-find . -name "<canister_name>.wasm" 
-```
+npx generate-did <canister_name>
+``` 
 
-You'll see something like this:
-```bash
-./target/wasm32-unknown-unknown/release/<canister_name>.wasm
-./target/wasm32-unknown-unknown/release/deps/<canister_name>.wasm
-./.dfx/playground/canisters/canister_one/<canister_name>.wasm
-./.dfx/local/canisters/canister_one/<canister_name>.wasm
-./.dfx/ic/canisters/canister_one/<canister_name>.wasm
-```
-
-Step 3: Check your canister ID:
-```bash
-dfx canister id <canister_name> --network ic  
-```
+Check out full example on how to use the package [here](https://www.npmjs.com/package/canister-tools)
 
 Step 4: Upgrade your canister using the following command:
 ```bash
-dfx canister --network ic install <canister_id> --mode upgrade --wasm .dfx/ic/canisters/<canister_name>/<canister_name>.wasm
+npx upgrade-canister <backend_canister_name> --backend --mainnet ## You can remove the "--mainnet" flag if it's locally
 ```
 ### Upgrading a frontend canister:
-Step 1: Ensure you've built your frontend canister:
+You can easily upgrade your frontend canister, ``especially when you've updated your assets.json file`` and you'd like to re-install your canister, using the command: 
 ```bash
-dfx build frontend_canister_name --network ic  
-```
-Step 2: Function for upgrading the frontend canister: 
-```bash 
-dfx canister install frontend_canister_name --mode upgrade --network ic
+upgrade-canister <frontend_canister_name> --frontend --mainnet ## You can remove the "--mainnet" flag if it's locally
 ```
 
 Check out the official Internet Computer documentation on [canister upgrades](https://internetcomputer.org/docs/current/tutorials/developer-journey/level-2/2.1-storage-persistence#upgrading-canisters)

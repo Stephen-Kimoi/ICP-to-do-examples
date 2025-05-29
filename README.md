@@ -6,7 +6,7 @@ This repository is perfect for developers looking to learn, build, and experimen
 
 ## Table of Contents: 
 
-Check out the [Cheat Sheet file](CHEATSHEAT.md) on tutorials of how to navigate certain things on ICP.
+### Section A: Live tutorials & examples:
 
 1. [Uploading and Managing Assets on Canisters](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/asset-storage): 
     - Storing images and files on ICP
@@ -31,6 +31,13 @@ Check out the [Cheat Sheet file](CHEATSHEAT.md) on tutorials of how to navigate 
 
 5. Persisiting data across canister upgrades
     - Ensuring data persistence during upgrades -->
+
+### Section B: Cheat Sheet: 
+This [Cheat Sheet file](CHEATSHEAT.md) contains tutorials of how to navigate certain things on ICP.
+
+1. [ICP Tokens to cycles conversion](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
+
+2. [Canister Upgrade on rust while using stable structures](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#canister-upgrade-on-rust-while-using-stable-structures)
 
 ## Getting started: 
 
