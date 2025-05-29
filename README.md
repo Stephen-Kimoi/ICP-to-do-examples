@@ -35,9 +35,11 @@ This repository is perfect for developers looking to learn, build, and experimen
 ### Section B: Cheat Sheet: 
 This [Cheat Sheet file](CHEATSHEAT.md) contains tutorials of how to navigate certain things on ICP.
 
-1. [ICP Tokens to cycles conversion](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
+1. [ICP Tokens to cycles conversion](./CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
 
-2. [Canister Upgrade on rust while using stable structures](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#canister-upgrade-on-rust-while-using-stable-structures)
+2. [Canister Upgrade on rust while using stable structures](./CHEATSHEAT.md#canister-upgrade-on-rust-while-using-stable-structures)
+
+3. [Generating .did files in rust](./CHEATSHEAT.md#generating-did-files-in-rust)
 
 ## Getting started: 
 
