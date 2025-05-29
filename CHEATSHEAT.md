@@ -79,3 +79,16 @@ upgrade-canister <frontend_canister_name> --frontend --mainnet ## You can remove
 ```
 
 Check out the official Internet Computer documentation on [canister upgrades](https://internetcomputer.org/docs/current/tutorials/developer-journey/level-2/2.1-storage-persistence#upgrading-canisters)
+
+## Generating .did files in rust: 
+You can now easily generate .did files in rust using the command
+```bash
+npx generate-did <canister_name>
+```
+
+This will:
+1. Build the Rust canister
+2. Extract and generate the Candid file
+3. Save it as <canister_name>.did
+
+Check out the package over [here](https://www.npmjs.com/package/canister-tools)
