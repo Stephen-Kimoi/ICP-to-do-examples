@@ -10,3 +10,6 @@
 ## Week 4 May 2025: 
 - How to deal with ICRC-103 (query allowances) on the ICP ledger [forum post](https://forum.dfinity.org/t/standard-for-managing-icrc-2-approvals-a-challenge-for-the-icp-ledger/32997/13?u=marc0olo) 
 - IC-Vibe-Coding-Template [link](https://github.com/pt-icp-hub/IC-Vibe-Coding-Template)
+
+## Week 2 June 2025:
+- Solana RPC Testing and intergration
