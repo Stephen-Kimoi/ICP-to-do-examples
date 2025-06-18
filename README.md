@@ -35,9 +35,12 @@ This repository is perfect for developers looking to learn, build, and experimen
 ### Section B: Cheat Sheet:
 This [Cheat Sheet file](cheatsheet/README.md) contains tutorials on how to navigate certain things on ICP.
 
-1. [ICP Tokens to cycles conversion](cheatsheet/ICP-Tokens-to-cycles-conversion.md)
-2. [Canister Upgrade on rust while using stable structures](cheatsheet/Canister-Upgrade-on-rust-while-using-stable-structures.md)
-3. [Generating .did files in rust](cheatsheet/Generating-did-files-in-rust.md)
+1. [Setting up your local developer environment on your PC (Mac, Linux & Windows)](cheatsheet/environment-setup.md)
+2. [ICP Tokens to cycles conversion](cheatsheet/ICP-Tokens-to-cycles-conversion.md)
+3. [Canister Upgrade on rust while using stable structures](cheatsheet/Canister-Upgrade-on-rust-while-using-stable-structures.md)
+4. [Generating .did files in rust](cheatsheet/Generating-did-files-in-rust.md)
+5. [Updating Content Security Policy](cheatsheet/updating-csp.md)
+6. [Automating deployments on ICP](cheatsheet/Automating-deployments-on-ICP.md)
 
 ## Getting started:
 
