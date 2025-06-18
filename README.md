@@ -32,19 +32,17 @@ This repository is perfect for developers looking to learn, build, and experimen
 5. Persisiting data across canister upgrades
     - Ensuring data persistence during upgrades -->
 
-### Section B: Cheat Sheet: 
-This [Cheat Sheet file](CHEATSHEAT.md) contains tutorials of how to navigate certain things on ICP.
+### Section B: Cheat Sheet:
+This [Cheat Sheet file](cheatsheet/README.md) contains tutorials on how to navigate certain things on ICP.
 
-1. [ICP Tokens to cycles conversion](./CHEATSHEAT.md#icp-tokens-to-cycles-conversion) 
+1. [ICP Tokens to cycles conversion](cheatsheet/ICP-Tokens-to-cycles-conversion.md)
+2. [Canister Upgrade on rust while using stable structures](cheatsheet/Canister-Upgrade-on-rust-while-using-stable-structures.md)
+3. [Generating .did files in rust](cheatsheet/Generating-did-files-in-rust.md)
 
-2. [Canister Upgrade on rust while using stable structures](./CHEATSHEAT.md#canister-upgrade-on-rust-while-using-stable-structures)
-
-3. [Generating .did files in rust](./CHEATSHEAT.md#generating-did-files-in-rust)
-
-## Getting started: 
+## Getting started:
 
 1. Prerequisites:
-   - Ensure you've set up your environment for ICP development. Kindly check out the [Setup File](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/SETUP.md) file for detailed instructions.
+   - Ensure you've set up your environment for ICP development. Kindly check out the [Environment Setup](cheatsheet/environment-setup.md) file for detailed instructions.
 
 2. Clone the repository:
 ```bash

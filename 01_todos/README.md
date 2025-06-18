@@ -13,3 +13,5 @@
 
 ## Week 2 June 2025:
 - Solana RPC Testing and intergration
+- Wasm64 available for Rust canisters on ICP [Link](https://forum.dfinity.org/t/wasm64-beta-release-coming-soon/35791?u=marc0olo)
+- canister history [Link](https://docs.cycleops.dev/changelog/canister-history)

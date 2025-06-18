@@ -146,5 +146,4 @@ dfxvm self uninstall
 If prompted for confirmation, use:  
 ```bash
 dfxvm self uninstall --yes
-```
-```
+``` 
