@@ -15,3 +15,7 @@
 - Solana RPC Testing and intergration
 - Wasm64 available for Rust canisters on ICP [Link](https://forum.dfinity.org/t/wasm64-beta-release-coming-soon/35791?u=marc0olo)
 - canister history [Link](https://docs.cycleops.dev/changelog/canister-history)
+
+## Week 3 June 2025: 
+- Build on BTC [link](https://internetcomputer.org/docs/build-on-btc)
+- Elevating the DevOps Experience on ICP with Beryllium [Link](https://medium.com/dfinity/elevating-the-devops-experience-on-icp-with-beryllium-785db231e4dd#5912)

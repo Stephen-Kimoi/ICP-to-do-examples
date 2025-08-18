@@ -28,6 +28,7 @@ Solution: vetKeys - which allow secure, on-demand key access without exposing se
 vetKeys enables development of DKMS that enables users to easily generate, retrieve, and share cryptographic keys across devices and with other users.
 
 ## Encrypted onchain storage: 
+Core application of DKMS is generation of encyption keys for securing data, whether stored in a canister, on another blockchain, or off-chain entirely. 
 
 ## Threshold BLS Signatures: 
 vetKeys introduce a new threshold signature scheme to canisters - threshold BLS signatures. 
@@ -50,4 +51,3 @@ Timelock encryption also serves as a key building block for protecting against m
 vetKeys can also function as a Verifiable Random Function (VRF).
 
 [Source](https://internetcomputer.org/docs/building-apps/network-features/vetkeys/introduction)
-
