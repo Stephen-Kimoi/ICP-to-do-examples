@@ -26,3 +26,7 @@
 2. Solana Tutorial on ICP: https://youtu.be/CpxQqp6CxoY?si=t7zF0MlXrRosozCq 
 
 3. Check out this workshop to learn more about Fusion+ cross-chain swaps👇: https://x.com/DFINITYDev/status/1950470708171067659 
+
+4. Try out ICP Agent Kit: https://forum.dfinity.org/t/icp-agent-kit-natural-language-interface-for-internet-computer-langchain-based/53712 
+
+5. Check out MCP Server: https://forum.dfinity.org/t/technical-working-group-deai/24621/345 
