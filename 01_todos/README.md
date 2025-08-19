@@ -19,3 +19,10 @@
 ## Week 3 June 2025: 
 - Build on BTC [link](https://internetcomputer.org/docs/build-on-btc)
 - Elevating the DevOps Experience on ICP with Beryllium [Link](https://medium.com/dfinity/elevating-the-devops-experience-on-icp-with-beryllium-785db231e4dd#5912)
+
+## Week 3 August 2025: 
+1. Bitcoin on ICP: https://youtu.be/CUuU1QXeTQM?si=GKpjIgO5ZxKqpybM 
+
+2. Solana Tutorial on ICP: https://youtu.be/CpxQqp6CxoY?si=t7zF0MlXrRosozCq 
+
+3. Check out this workshop to learn more about Fusion+ cross-chain swaps👇: https://x.com/DFINITYDev/status/1950470708171067659 
