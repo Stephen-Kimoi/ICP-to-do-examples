@@ -6,3 +6,11 @@ Since vetKeys are only known to the client that requested them: the client can u
 ## ``KeyManager`` Library: 
 Offers Access Control and VetKey derivation 
 
+- Gives simple frontend APIs for key derivation, with no need of managing your own cryptographic primitives 
+- Offers deterministic key generation. 
+- Has a built in access control for keys. No peer-to-peer interaction required 
+- Enhances security when fetching keys on demand. No need of persisting sesitive keys locally. 
+
+## How does it work: 
+A canister that has enabled ``KeyManager`` determines access control for vetKeys
+
