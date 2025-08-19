@@ -1,0 +1,6 @@
+type PostId = text;
+
+service : {
+  "like": (PostId) -> (nat);
+  "getLikes": (PostId) -> (nat) query;
+};

@@ -1,0 +1,17 @@
+{
+  "canisters": {
+    "post-likes-backend": {
+      "candid": "src/post-likes-backend/post-likes-backend.did",
+      "package": "post-likes-backend",
+      "type": "rust"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
