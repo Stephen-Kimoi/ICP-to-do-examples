@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "src/post_likes_backend"
+]
+resolver = "2"
