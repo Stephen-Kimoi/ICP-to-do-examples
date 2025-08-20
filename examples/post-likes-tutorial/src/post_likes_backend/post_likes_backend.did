@@ -1,0 +1,2 @@
+type Result = variant { Ok : nat; Err : text };
+service : { get_likes : (text) -> (Result) query; like : (text) -> (Result) }

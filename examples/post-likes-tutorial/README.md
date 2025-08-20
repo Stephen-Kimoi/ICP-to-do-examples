@@ -1,4 +1,4 @@
-# 🚀 Tamper-Proof Post Likes: Web2 API + ICP Integration Tutorial
+# Tamper-Proof Post Likes: Web2 API + ICP Integration Tutorial
 
 This tutorial demonstrates how to integrate your existing Web2 API with the Internet Computer (ICP) to create tamper-proof, decentralized functionality. We'll build a simple likes counter system where your Web2 backend handles the API logic, but the actual like counts are stored immutably on ICP.
 

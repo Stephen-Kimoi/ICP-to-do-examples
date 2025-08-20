@@ -34,3 +34,6 @@ fn get_likes(post_id: String) -> Result<Nat, String> {
         Ok(count)
     })
 }
+
+// Enable Candid export
+ic_cdk::export_candid!(); 

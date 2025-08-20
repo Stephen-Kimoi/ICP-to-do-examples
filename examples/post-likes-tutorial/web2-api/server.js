@@ -3,7 +3,7 @@ import cors from 'cors';
 import { HttpAgent } from '@dfinity/agent';
 import { Ed25519KeyIdentity } from '@dfinity/identity';
 import { Actor } from '@dfinity/agent';
-import { idlFactory } from '../src/declarations/post-likes-backend/post-likes-backend.did.js';
+import { idlFactory } from '../src/declarations/post_likes_backend/post_likes_backend.did.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -15,9 +15,22 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Create a simple identity for server-side calls
-const seed = 'your-secret-seed-phrase-here-make-it-long-enough';
-const identity = Ed25519KeyIdentity.fromSeedPhrase(seed);
+// Completely insecure seed phrase. Do not use for any purpose other than testing.
+// Resolves to "rwbxt-jvr66-qvpbz-2kbh3-u226q-w6djk-b45cp-66ewo-tpvng-thbkh-wae"
+const seed = process.env.SEED_PHRASE || 'test test test test test test test test test test test test';
+if (!process.env.SEED_PHRASE) {
+  console.warn('⚠️  WARNING: Using fallback seed phrase. Set SEED_PHRASE in .env for production!');
+}
+
+// Create identity from seed phrase - using the correct method for current version
+let identity;
+try {
+  // For current versions, use fromSeedPhrase
+  identity = Ed25519KeyIdentity.fromSeedPhrase(seed);
+} catch (error) {
+  console.warn('⚠️  Could not create identity from seed phrase, generating random identity');
+  identity = Ed25519KeyIdentity.generate();
+}
 
 // Initialize the agent
 const agent = new HttpAgent({
@@ -31,7 +44,7 @@ if (process.env.DFX_NETWORK !== 'ic') {
 }
 
 // Create actor instance
-const canisterId = process.env.POST_LIKES_BACKEND_CANISTER_ID || 'rrkah-fqaaa-aaaaa-aaaaq-cai'; // Default local canister ID
+const canisterId = process.env.POST_LIKES_BACKEND_CANISTER_ID || 'bkyz2-fmaaa-aaaaa-qaaaq-cai'; // Default local canister ID
 const actor = Actor.createActor(idlFactory, {
   agent,
   canisterId

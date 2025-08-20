@@ -1,5 +1,5 @@
 [workspace]
 members = [
-    "src/post-likes-backend"
+    "src/post_likes_backend"
 ]
 resolver = "2"

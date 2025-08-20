@@ -1,8 +1,8 @@
 {
   "canisters": {
-    "post-likes-backend": {
-      "candid": "src/post-likes-backend/post-likes-backend.did",
-      "package": "post-likes-backend",
+    "post_likes_backend": {
+      "candid": "src/post_likes_backend/post_likes_backend.did",
+      "package": "post_likes_backend",
       "type": "rust"
     }
   },
