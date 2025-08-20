@@ -93,6 +93,43 @@ app.get('/likes/:postId', async (req, res) => {
   }
 });
 
+// Create a new post
+app.post('/posts', async (req, res) => {
+  try {
+    const { id, title, content } = req.body;
+    
+    if (!id || !title || !content) {
+      return res.status(400).json({ error: 'Post ID, title, and content are required' });
+    }
+
+    console.log(`Creating post: ${id}`);
+    const result = await actor.create_post(id, title, content);
+    
+    // Handle the Result type from Candid
+    if (result.Ok !== undefined) {
+      res.json({ 
+        post: result.Ok,
+        message: 'Post created successfully on ICP canister'
+      });
+    } else if (result.Err !== undefined) {
+      res.status(400).json({ 
+        error: 'Failed to create post',
+        details: result.Err 
+      });
+    } else {
+      res.status(500).json({ 
+        error: 'Unexpected response format from ICP canister'
+      });
+    }
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).json({ 
+      error: 'Failed to create post on ICP canister',
+      details: error.message 
+    });
+  }
+});
+
 // Like a specific post
 app.post('/like/:postId', async (req, res) => {
   try {
@@ -134,40 +171,26 @@ app.post('/like/:postId', async (req, res) => {
 // Get all posts with their like counts
 app.get('/posts', async (req, res) => {
   try {
-    // For demo purposes, we'll return some sample posts
-    // In a real app, you might store post metadata in your Web2 database
-    const samplePosts = [
-      { id: 'post-1', title: 'Getting Started with ICP', content: 'Learn the basics...' },
-      { id: 'post-2', title: 'Web2 + ICP Integration', content: 'Bridge the gap...' },
-      { id: 'post-3', title: 'Tamper-Proof Data', content: 'Why decentralization matters...' }
-    ];
-
-    // Get likes for each post from ICP
-    const postsWithLikes = await Promise.all(
-      samplePosts.map(async (post) => {
-        try {
-          const result = await actor.get_likes(post.id);
-          if (result.Ok !== undefined) {
-            return { ...post, likes: result.Ok.toString() };
-          } else {
-            console.warn(`Failed to get likes for ${post.id}: ${result.Err}`);
-            return { ...post, likes: '0' };
-          }
-        } catch (error) {
-          console.warn(`Failed to get likes for ${post.id}:`, error.message);
-          return { ...post, likes: '0' };
-        }
-      })
-    );
+    // Get posts directly from the ICP canister
+    const postsWithLikes = await actor.get_posts_with_likes();
+    
+    // Transform the response to match our expected format
+    const formattedPosts = postsWithLikes.map(([post, likes]) => ({
+      id: post.id,
+      title: post.title,
+      content: post.content,
+      created_at: post.created_at,
+      likes: likes.toString()
+    }));
 
     res.json({ 
-      posts: postsWithLikes,
-      message: 'Posts retrieved with ICP-stored like counts'
+      posts: formattedPosts,
+      message: 'Posts retrieved directly from ICP canister'
     });
   } catch (error) {
     console.error('Error getting posts:', error);
     res.status(500).json({ 
-      error: 'Failed to get posts with likes',
+      error: 'Failed to get posts from ICP canister',
       details: error.message 
     });
   }
@@ -179,6 +202,6 @@ app.listen(PORT, () => {
   console.log(`🔗 Health check: http://localhost:${PORT}/health`);
   console.log(`📊 Get likes: http://localhost:${PORT}/likes/{postId}`);
   console.log(`👍 Like post: POST http://localhost:${PORT}/like/{postId}`);
-  console.log(`📝 Get all posts: http://localhost:${PORT}/posts`);
+  console.log(`📝 Create post: POST http://localhost:${PORT}/posts`);
   console.log(`🌐 Connected to ICP canister: ${canisterId}`);
 });
