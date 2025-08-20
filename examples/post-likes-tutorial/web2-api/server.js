@@ -65,13 +65,25 @@ app.get('/likes/:postId', async (req, res) => {
     }
 
     console.log(`Fetching likes for post: ${postId}`);
-    const likes = await actor.get_likes(postId);
+    const result = await actor.get_likes(postId);
     
-    res.json({ 
-      postId, 
-      likes: likes.toString(),
-      message: 'Likes retrieved from ICP canister'
-    });
+    // Handle the Result type from Candid
+    if (result.Ok !== undefined) {
+      res.json({ 
+        postId, 
+        likes: result.Ok.toString(),
+        message: 'Likes retrieved from ICP canister'
+      });
+    } else if (result.Err !== undefined) {
+      res.status(400).json({ 
+        error: 'Failed to get likes',
+        details: result.Err 
+      });
+    } else {
+      res.status(500).json({ 
+        error: 'Unexpected response format from ICP canister'
+      });
+    }
   } catch (error) {
     console.error('Error getting likes:', error);
     res.status(500).json({ 
@@ -91,13 +103,25 @@ app.post('/like/:postId', async (req, res) => {
     }
 
     console.log(`Liking post: ${postId}`);
-    const newLikes = await actor.like(postId);
+    const result = await actor.like(postId);
     
-    res.json({ 
-      postId, 
-      newLikes: newLikes.toString(),
-      message: 'Post liked successfully on ICP canister'
-    });
+    // Handle the Result type from Candid
+    if (result.Ok !== undefined) {
+      res.json({ 
+        postId, 
+        newLikes: result.Ok.toString(),
+        message: 'Post liked successfully on ICP canister'
+      });
+    } else if (result.Err !== undefined) {
+      res.status(400).json({ 
+        error: 'Failed to like post',
+        details: result.Err 
+      });
+    } else {
+      res.status(500).json({ 
+        error: 'Unexpected response format from ICP canister'
+      });
+    }
   } catch (error) {
     console.error('Error liking post:', error);
     res.status(500).json({ 
@@ -122,8 +146,13 @@ app.get('/posts', async (req, res) => {
     const postsWithLikes = await Promise.all(
       samplePosts.map(async (post) => {
         try {
-          const likes = await actor.get_likes(post.id);
-          return { ...post, likes: likes.toString() };
+          const result = await actor.get_likes(post.id);
+          if (result.Ok !== undefined) {
+            return { ...post, likes: result.Ok.toString() };
+          } else {
+            console.warn(`Failed to get likes for ${post.id}: ${result.Err}`);
+            return { ...post, likes: '0' };
+          }
         } catch (error) {
           console.warn(`Failed to get likes for ${post.id}:`, error.message);
           return { ...post, likes: '0' };
