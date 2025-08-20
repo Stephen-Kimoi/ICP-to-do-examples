@@ -196,6 +196,8 @@ const agent = new HttpAgent({
 });
 ```
 
+**Reference**: [`web2-api/server.js` lines 25-40](web2-api/server.js#L25-L40)
+
 #### 2. **Request Encoding**: Converts JavaScript calls to Candid format
 ```javascript
 // Create actor instance with the canister interface
@@ -209,6 +211,8 @@ const result = await actor.get_likes(postId);
 const posts = await actor.get_posts_with_likes();
 ```
 
+**Reference**: [`web2-api/server.js` lines 42-50](web2-api/server.js#L42-L50) and method calls throughout the endpoints
+
 #### 3. **Network Communication**: Handles HTTP requests to ICP network
 ```javascript
 // Fetch root key for local development
@@ -219,6 +223,8 @@ if (process.env.DFX_NETWORK !== 'ic') {
 // The agent handles all network communication, retries, and routing
 const newLikes = await actor.like(postId);
 ```
+
+**Reference**: [`web2-api/server.js` lines 52-54](web2-api/server.js#L52-L54) and network calls like line 143
 
 #### 4. **Response Processing**: Decodes and verifies canister responses
 ```javascript
@@ -240,6 +246,8 @@ if (result.Ok !== undefined) {
   });
 }
 ```
+
+**Reference**: [`web2-api/server.js` lines 70-86](web2-api/server.js#L70-L86) (get likes), lines 108-123 (create post), lines 145-161 (like post)
 
 ## 🔧 Configuration
 
