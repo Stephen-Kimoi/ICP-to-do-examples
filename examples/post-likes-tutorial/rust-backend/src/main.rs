@@ -6,12 +6,12 @@ use axum::{
     routing::{get, post},
     Router,
 };
-use candid::{Decode, Encode, Principal, CandidType};
+use candid::{Encode, Principal, CandidType};
 use ic_agent::{Agent, identity::AnonymousIdentity};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use tower_http::cors::{Any, CorsLayer};
-use tracing::{info, warn};
+use tracing::{info, warn, error};
 use url::Url;
 
 // Types for our API
@@ -23,38 +23,14 @@ struct Post {
     created_at: u64,
 }
 
+#[derive(Deserialize, CandidType)]
+struct PostWithLikes(Post, u64);
+
 #[derive(Serialize, Deserialize)]
 struct CreatePostRequest {
     id: String,
     title: String,
     content: String,
-}
-
-#[derive(Serialize, Deserialize)]
-struct ApiResponse<T> {
-    data: Option<T>,
-    message: String,
-    error: Option<String>,
-}
-
-#[derive(Serialize, Deserialize)]
-struct LikesResponse {
-    post_id: String,
-    likes: String,
-    message: String,
-}
-
-#[derive(Serialize, Deserialize)]
-struct LikeResponse {
-    post_id: String,
-    new_likes: String,
-    message: String,
-}
-
-#[derive(Serialize, Deserialize)]
-struct PostsResponse {
-    posts: Vec<Post>,
-    message: String,
 }
 
 // App state
@@ -73,19 +49,17 @@ async fn create_agent(url: Url, use_mainnet: bool) -> Result<Agent> {
 }
 
 // Health check endpoint
-async fn health_check() -> Json<ApiResponse<()>> {
-    Json(ApiResponse {
-        data: None,
-        message: "Rust backend is running and connected to ICP".to_string(),
-        error: None,
-    })
+async fn health_check() -> Json<serde_json::Value> {
+    Json(serde_json::json!({
+        "message": "Rust backend is running and connected to ICP"
+    }))
 }
 
 // Get likes for a post
 async fn get_likes(
     State(state): State<Arc<AppState>>,
     Path(post_id): Path<String>,
-) -> Result<Json<LikesResponse>, StatusCode> {
+) -> Result<Json<serde_json::Value>, StatusCode> {
     if post_id.is_empty() {
         return Err(StatusCode::BAD_REQUEST);
     }
@@ -96,19 +70,12 @@ async fn get_likes(
         .call()
         .await {
         Ok(response) => {
-            let result: Result<String, String> = Decode!(&response, Result<String, String>)
-                .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
-            match result {
-                Ok(likes) => Ok(Json(LikesResponse {
-                    post_id,
-                    likes,
-                    message: "Likes retrieved from ICP canister".to_string(),
-                })),
-                Err(err) => {
-                    warn!("Failed to get likes: {}", err);
-                    Err(StatusCode::BAD_REQUEST)
-                }
-            }
+            // Just return the raw response like the Python backend does
+            Ok(Json(serde_json::json!({
+                "post_id": post_id,
+                "result": response,
+                "message": "Likes retrieved from ICP canister"
+            })))
         }
         Err(err) => {
             warn!("Canister call failed: {}", err);
@@ -121,7 +88,7 @@ async fn get_likes(
 async fn like_post(
     State(state): State<Arc<AppState>>,
     Path(post_id): Path<String>,
-) -> Result<Json<LikeResponse>, StatusCode> {
+) -> Result<Json<serde_json::Value>, StatusCode> {
     if post_id.is_empty() {
         return Err(StatusCode::BAD_REQUEST);
     }
@@ -132,19 +99,12 @@ async fn like_post(
         .call_and_wait()
         .await {
         Ok(response) => {
-            let result: Result<String, String> = Decode!(&response, Result<String, String>)
-                .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
-            match result {
-                Ok(new_likes) => Ok(Json(LikeResponse {
-                    post_id,
-                    new_likes,
-                    message: "Post liked successfully on ICP canister".to_string(),
-                })),
-                Err(err) => {
-                    warn!("Failed to like post: {}", err);
-                    Err(StatusCode::BAD_REQUEST)
-                }
-            }
+            // Just return the raw response like the Python backend does
+            Ok(Json(serde_json::json!({
+                "post_id": post_id,
+                "result": response,
+                "message": "Post liked successfully on ICP canister"
+            })))
         }
         Err(err) => {
             warn!("Canister call failed: {}", err);
@@ -154,20 +114,25 @@ async fn like_post(
 }
 
 // Get all posts with likes
-async fn get_posts(State(state): State<Arc<AppState>>) -> Result<Json<PostsResponse>, StatusCode> {
+async fn get_posts(State(state): State<Arc<AppState>>) -> Result<Json<serde_json::Value>, StatusCode> {
+    info!("Received request for posts");
+    let empty_args = Encode!(&()).map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+    info!("Encoded empty args successfully");
     match state.agent.query(&state.canister_id, "get_posts_with_likes")
+        .with_arg(empty_args)
         .call()
         .await {
         Ok(response) => {
-            let posts: Vec<Post> = Decode!(&response, Vec<Post>)
-                .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
-            Ok(Json(PostsResponse {
-                posts,
-                message: "Posts retrieved directly from ICP canister".to_string(),
-            }))
+            info!("Received response from canister: {:?}", response);
+            
+            // Just return the raw response like the Python backend does
+            Ok(Json(serde_json::json!({
+                "posts": response,
+                "message": "Posts retrieved directly from ICP canister"
+            })))
         }
         Err(err) => {
-            warn!("Canister call failed: {}", err);
+            error!("Canister call failed: {}", err);
             Err(StatusCode::INTERNAL_SERVER_ERROR)
         }
     }
@@ -177,7 +142,7 @@ async fn get_posts(State(state): State<Arc<AppState>>) -> Result<Json<PostsRespo
 async fn create_post(
     State(state): State<Arc<AppState>>,
     Json(request): Json<CreatePostRequest>,
-) -> Result<Json<ApiResponse<Post>>, StatusCode> {
+) -> Result<Json<serde_json::Value>, StatusCode> {
     if request.id.is_empty() || request.title.is_empty() || request.content.is_empty() {
         return Err(StatusCode::BAD_REQUEST);
     }
@@ -190,19 +155,11 @@ async fn create_post(
         .call_and_wait()
         .await {
         Ok(response) => {
-            let result: Result<Post, String> = Decode!(&response, Result<Post, String>)
-                .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
-            match result {
-                Ok(post) => Ok(Json(ApiResponse {
-                    data: Some(post),
-                    message: "Post created successfully on ICP canister".to_string(),
-                    error: None,
-                })),
-                Err(err) => {
-                    warn!("Failed to create post: {}", err);
-                    Err(StatusCode::BAD_REQUEST)
-                }
-            }
+            // Just return the raw response like the Python backend does
+            Ok(Json(serde_json::json!({
+                "result": response,
+                "message": "Post created successfully on ICP canister"
+            })))
         }
         Err(err) => {
             warn!("Canister call failed: {}", err);
