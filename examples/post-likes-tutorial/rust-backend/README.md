@@ -1,155 +1,221 @@
-# Rust Backend for Post Likes Tutorial
+# Post Likes Rust Backend
 
-This is the Rust implementation of the post likes backend using the [ICP Rust Agent](https://internetcomputer.org/docs/building-apps/interact-with-canisters/agents/rust-agent).
+This is a Rust backend service that demonstrates how to use the ICP Rust agent to interact with a deployed post-likes canister on the Internet Computer.
 
 ## Features
 
-- **HTTP API Server**: Axum web framework with async/await support
-- **ICP Integration**: Uses DFINITY Rust agent for canister communication
-- **Type Safety**: Strong typing with Rust's type system
-- **Performance**: High-performance async server with proper error handling
-- **CORS Support**: Built-in CORS middleware for web applications
+- **ICP Integration**: Uses the official ICP Rust agent (`ic-agent`) to communicate with canisters
+- **RESTful API**: Provides HTTP endpoints for all post-likes operations
+- **Async/Await**: Built with Tokio for high-performance async operations
+- **Error Handling**: Comprehensive error handling with detailed logging
+- **CORS Support**: Cross-origin resource sharing enabled for frontend integration
 
 ## API Endpoints
 
-- `GET /health` - Health check
-- `GET /likes/{post_id}` - Get likes for a post
-- `POST /like/{post_id}` - Like a post
-- `GET /posts` - Get all posts with like counts
-- `POST /posts` - Create a new post
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/health` | Health check endpoint |
+| `GET` | `/posts` | Get all posts |
+| `GET` | `/posts/:post_id` | Get a specific post by ID |
+| `POST` | `/posts` | Create a new post |
+| `GET` | `/likes/:post_id` | Get like count for a specific post |
+| `POST` | `/like/:post_id` | Like a post (increment like count) |
+| `GET` | `/posts-with-likes` | Get all posts with their like counts |
 
-## Quick Start
+## Prerequisites
 
-### Prerequisites
+- Rust 1.70+ and Cargo
+- dfx (DFINITY Canister SDK)
+- A deployed post-likes backend canister
 
-- Rust 1.70+ installed
-- DFX running locally with the post-likes-backend canister deployed
-- Environment variables configured
+## Setup
 
-### Installation
+1. **Clone and navigate to the project**:
+   ```bash
+   cd examples/post-likes-tutorial/rust-backend
+   ```
 
+2. **Install dependencies**:
+   ```bash
+   cargo build
+   ```
+
+3. **Set up environment variables**:
+   Create a `.env` file in the project root with the following variables:
+   ```bash
+   # ICP Network Configuration
+   # Set to "local" for local development, "ic" for mainnet
+   DFX_NETWORK=local
+   
+   # Post Likes Backend Canister ID
+   # For local development, this will be generated when you deploy the canister
+   # For mainnet, use the deployed canister ID
+   POST_LIKES_BACKEND_CANISTER_ID=bkyz2-fmaaa-aaaaa-qaaaq-cai
+   
+   # Optional: Custom ICP Agent URL (defaults to ic0.app for mainnet, 127.0.0.1:4943 for local)
+   # ICP_AGENT_URL=https://ic0.app
+   ```
+
+4. **Deploy the post-likes backend canister** (if not already deployed):
+   ```bash
+   cd ../../
+   dfx deploy post_likes_backend
+   ```
+
+5. **Update the canister ID** in your `.env` file with the deployed canister ID from the previous step.
+
+## Running the Service
+
+### Development Mode
 ```bash
-cd rust-backend
+cargo run
+```
+
+The service will start on `http://localhost:3000`.
+
+### Production Build
+```bash
 cargo build --release
+./target/release/post-likes-rust-backend
 ```
 
-### Configuration
+## Testing the API
 
-Set the following environment variables:
-
+### Health Check
 ```bash
-export PORT=3001
-export DFX_NETWORK=local
-export POST_LIKES_BACKEND_CANISTER_ID=your-canister-id
+curl http://localhost:3000/health
 ```
 
-### Running the Server
-
+### Get All Posts
 ```bash
-cargo run --release
+curl http://localhost:3000/posts
 ```
 
-The server will start on port 3001 (or the port specified in your environment).
+### Create a New Post
+```bash
+curl -X POST http://localhost:3000/posts \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "my-post-1",
+    "title": "My First Post",
+    "content": "This is the content of my first post."
+  }'
+```
+
+### Get a Specific Post
+```bash
+curl http://localhost:3000/posts/my-post-1
+```
+
+### Get Likes for a Post
+```bash
+curl http://localhost:3000/likes/my-post-1
+```
+
+### Like a Post
+```bash
+curl -X POST http://localhost:3000/like/my-post-1
+```
+
+### Get Posts with Likes
+```bash
+curl http://localhost:3000/posts-with-likes
+```
 
 ## Architecture
 
-This backend demonstrates:
+The application is structured as follows:
 
-1. **Agent Initialization**: Setting up the ICP Rust agent with proper error handling
-2. **Async/Await**: Full async support for high-performance canister communication
-3. **Type Safety**: Strong typing with Rust's Result types and error handling
-4. **Web Framework**: Modern web framework (Axum) with proper middleware
-5. **CORS Support**: Built-in CORS handling for cross-origin requests
+- **`main.rs`**: Main application entry point with Axum web server setup
+- **`post_likes_client.rs`**: ICP agent client for interacting with the post-likes canister
+- **Data Structures**: Candid-compatible structs matching the canister interface
 
-## Key Implementation Details
+### Key Components
 
-### Agent Setup
+1. **ICP Agent**: Handles communication with the Internet Computer
+2. **PostLikesClient**: High-level client for canister operations
+3. **Axum Router**: HTTP routing and request handling
+4. **Error Handling**: Comprehensive error handling with detailed logging
 
-```rust
-let agent = Agent::builder()
-    .with_url(url)
-    .build()?;
+## Error Handling
 
-if !use_mainnet {
-    agent.fetch_root_key().await?;
-}
-```
+The service provides detailed error messages and logging for debugging:
 
-### Canister Communication
+- **Canister Errors**: Errors returned from the ICP canister
+- **Network Errors**: Connection issues with the Internet Computer
+- **Validation Errors**: Invalid input data
+- **Encoding/Decoding Errors**: Candid serialization issues
 
-```rust
-let canister = Canister::builder()
-    .with_agent(&state.agent)
-    .with_canister_id(state.canister_id)
-    .build()?;
+## Logging
 
-let result = canister.query("get_likes")
-    .with_arg(Encode!(&post_id)?)
-    .call()
-    .await?;
-```
+The service uses the `tracing` crate for structured logging:
 
-### Error Handling
+- **Request Logging**: All incoming requests are logged
+- **Debug Information**: Detailed debug information for canister operations
+- **Error Logging**: Comprehensive error logging with context
 
-```rust
-match result {
-    Ok(likes) => Ok(Json(LikesResponse { ... })),
-    Err(err) => {
-        warn!("Failed to get likes: {}", err);
-        Err(StatusCode::BAD_REQUEST)
-    }
-}
-```
+## Development
 
-## Dependencies
+### Adding New Endpoints
 
-- **ic-agent**: DFINITY's Rust agent for ICP communication
-- **ic-utils**: High-level utilities for canister interaction
-- **axum**: Modern async web framework
-- **tokio**: Async runtime
-- **candid**: Candid interface language support
-- **serde**: Serialization/deserialization
+1. Add the route in `main.rs`
+2. Implement the handler function
+3. Add any necessary data structures
+4. Update the client if needed
 
-## Performance Features
+### Testing
 
-- **Async/Await**: Non-blocking I/O for all operations
-- **Connection Pooling**: Efficient agent connection management
-- **Error Recovery**: Proper error handling without performance impact
-- **Memory Safety**: Rust's memory safety guarantees
-
-## Security Considerations
-
-- **Anonymous Identity**: Currently uses anonymous identity for simplicity
-- **Input Validation**: All inputs are validated before processing
-- **Error Messages**: Safe error messages that don't expose internals
-- **CORS**: Configurable CORS for production deployments
-
-## Testing
-
-You can test the API endpoints using curl or any HTTP client:
-
+Run the test suite:
 ```bash
-# Health check
-curl http://localhost:3001/health
+cargo test
+```
 
-# Get posts
-curl http://localhost:3001/posts
+### Code Formatting
 
-# Like a post
-curl -X POST http://localhost:3001/like/post-1
+Format the code:
+```bash
+cargo fmt
+```
+
+### Linting
+
+Check for code issues:
+```bash
+cargo clippy
 ```
 
 ## Troubleshooting
 
-- **Build Errors**: Ensure you have the latest Rust toolchain
-- **Canister Connection**: Verify the canister ID and network configuration
-- **Port Conflicts**: Check if port 3001 is available
-- **Dependencies**: Run `cargo update` if you encounter dependency issues
+### Common Issues
 
-## Next Steps
+1. **Canister ID Not Found**: Ensure the canister is deployed and the ID is correct
+2. **Network Connection Issues**: Check your dfx network configuration
+3. **Permission Denied**: Ensure the canister has the necessary permissions
 
-- Implement proper identity management
-- Add authentication and authorization
-- Implement rate limiting
-- Add metrics and monitoring
-- Deploy to production environments
+### Debug Mode
+
+Enable debug logging by setting the `RUST_LOG` environment variable:
+```bash
+RUST_LOG=debug cargo run
+```
+
+## Comparison with Other Implementations
+
+This Rust implementation provides:
+
+- **Performance**: Rust's zero-cost abstractions and async runtime
+- **Type Safety**: Strong type system with compile-time guarantees
+- **Memory Safety**: No garbage collection overhead
+- **Native ICP Integration**: Direct use of the official Rust agent
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is part of the ICP Tutorial Examples and follows the same licensing terms.
