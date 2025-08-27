@@ -132,16 +132,12 @@ async def get_likes(post_id: str = Path(..., description="The ID of the post")):
         # Call the canister method
         result = await canister.get_likes_async(post_id)
         
-        if hasattr(result, 'Ok') and result.Ok is not None:
-            return LikesResponse(
-                post_id=post_id,
-                likes=str(result.Ok),
-                message="Likes retrieved from ICP canister"
-            )
-        elif hasattr(result, 'Err') and result.Err is not None:
-            raise HTTPException(status_code=400, detail=f"Failed to get likes: {result.Err}")
-        else:
-            raise HTTPException(status_code=500, detail="Unexpected response format from ICP canister")
+        # Return raw result as-is
+        return {
+            "post_id": post_id,
+            "result": result,
+            "message": "Likes retrieved from ICP canister"
+        }
             
     except Exception as e:
         print(f"Error getting likes: {e}")
@@ -157,16 +153,12 @@ async def like_post(post_id: str = Path(..., description="The ID of the post to 
         # Call the canister method
         result = await canister.like_async(post_id)
         
-        if hasattr(result, 'Ok') and result.Ok is not None:
-            return LikeResponse(
-                post_id=post_id,
-                new_likes=str(result.Ok),
-                message="Post liked successfully on ICP canister"
-            )
-        elif hasattr(result, 'Err') and result.Err is not None:
-            raise HTTPException(status_code=400, detail=f"Failed to like post: {result.Err}")
-        else:
-            raise HTTPException(status_code=500, detail="Unexpected response format from ICP canister")
+        # Return raw result as-is
+        return {
+            "post_id": post_id,
+            "result": result,
+            "message": "Post liked successfully on ICP canister"
+        }
             
     except Exception as e:
         print(f"Error liking post: {e}")
@@ -179,13 +171,11 @@ async def get_posts():
         # Call the canister method
         result = await canister.get_posts_with_likes_async()
         
-        if isinstance(result, list):
-            return PostsResponse(
-                posts=result,
-                message="Posts retrieved directly from ICP canister"
-            )
-        else:
-            raise HTTPException(status_code=500, detail="Unexpected response format from ICP canister")
+        # Just return the raw result as-is, like the Node.js backend does
+        return {
+            "posts": result,
+            "message": "Posts retrieved directly from ICP canister"
+        }
             
     except Exception as e:
         print(f"Error getting posts: {e}")
@@ -201,15 +191,11 @@ async def create_post(request: CreatePostRequest):
         # Call the canister method
         result = await canister.create_post_async(request.id, request.title, request.content)
         
-        if hasattr(result, 'Ok') and result.Ok is not None:
-            return ApiResponse(
-                data=result.Ok,
-                message="Post created successfully on ICP canister"
-            )
-        elif hasattr(result, 'Err') and result.Err is not None:
-            raise HTTPException(status_code=400, detail=f"Failed to create post: {result.Err}")
-        else:
-            raise HTTPException(status_code=500, detail="Unexpected response format from ICP canister")
+        # Return raw result as-is
+        return {
+            "result": result,
+            "message": "Post created successfully on ICP canister"
+        }
             
     except Exception as e:
         print(f"Error creating post: {e}")
