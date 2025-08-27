@@ -370,7 +370,7 @@ Note the `Encode!(&())` for methods that take no arguments - this encodes an emp
 - Use `.await` to wait for responses
 - Update calls require `call_and_wait()` for consensus
 
-## 🚀 Running the Service
+## Running the Service
 
 ### Development Mode
 ```bash

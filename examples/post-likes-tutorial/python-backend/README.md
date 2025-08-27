@@ -372,7 +372,7 @@ ic-py automatically appends `_async` to method names:
 - **Type Safety**: Pydantic models ensure data validation
 - **Raw Results**: Return canister responses directly for flexibility
 
-## 🚀 Running the Service
+## Running the Service
 
 ### Development Mode
 ```bash

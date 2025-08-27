@@ -309,7 +309,7 @@ app.get('/posts', async (req, res) => {
 ```javascript
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Web2 API server running on port ${PORT}`);
+  console.log(`Web2 API server running on port ${PORT}`);
   console.log(`🔗 Health check: http://localhost:${PORT}/health`);
   console.log(`📊 Get likes: http://localhost:${PORT}/likes/{postId}`);
   console.log(`👍 Like post: POST http://localhost:${PORT}/like/{postId}`);
@@ -356,7 +356,7 @@ if (result.Ok !== undefined) {
 3. **Network Errors**: Catch exceptions from agent communication
 4. **Response Formatting**: Ensure consistent error response structure
 
-## 🚀 Running the Service
+## Running the Service
 
 ### Development Mode
 ```bash

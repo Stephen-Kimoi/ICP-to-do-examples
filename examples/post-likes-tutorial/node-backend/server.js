@@ -198,7 +198,7 @@ app.get('/posts', async (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Web2 API server running on port ${PORT}`);
+  console.log(`Web2 API server running on port ${PORT}`);
   console.log(`🔗 Health check: http://localhost:${PORT}/health`);
   console.log(`📊 Get likes: http://localhost:${PORT}/likes/{postId}`);
   console.log(`👍 Like post: POST http://localhost:${PORT}/like/{postId}`);

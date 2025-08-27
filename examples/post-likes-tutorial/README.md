@@ -1,25 +1,26 @@
-# Tamper-Proof Post Likes: Web2 API + ICP Integration Tutorial
+# Tamper-Proof Post Likes: Multi-Backend ICP Integration Tutorial
 
-This tutorial demonstrates how to integrate your existing Web2 API withInternet Computer (ICP) to create tamper-proof, decentralized functionality. 
+This tutorial demonstrates how to integrate your existing Web2 APIs with Internet Computer (ICP) to create tamper-proof, decentralized functionality using **three different backend implementations**.
 
 We'll build a simple likes counter system where your Web2 backend handles the API logic, but the actual like counts are stored immutably on ICP.
 
 ## What You'll Learn
 
 - **Web2 + ICP Integration**: How to bridge traditional web APIs with blockchain functionality
-- **ICP Agents**: Using the [JavaScript agent](https://internetcomputer.org/docs/building-apps/interact-with-canisters/agents/javascript-agent/) to call canisters from [Node.js](https://internetcomputer.org/docs/building-apps/interact-with-canisters/agents/nodejs/)
+- **Multiple Agent Implementations**: Using different ICP agents for different programming languages
 - **Tamper-Proof Data**: Why decentralization matters for data integrity
+- **Language Comparison**: See how the same functionality is implemented in Rust, Python, and Node.js
 
-## Architecture Overview: 
+## 🏗️ Architecture Overview
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Web2 API      │    │   ICP Agent     │    │   ICP Canister  │
-│   (Node.js)     │───▶│   (JavaScript)  │───▶│   (Rust)        │
+│   (Multiple)    │───▶│   (Multiple)    │───▶│   (Rust)        │
 │                 │    │                 │    │                 │
-│ • HTTP Endpoints│    │ • Authentication│    │ • Likes Storage │
-│ • Business Logic│    │ • CBOR Encoding │    │ • Immutable     │
-│ • Error Handling│    │ • Network Calls │    │ • Decentralized │
+│ • Rust          │    │ • Rust          │    │ • Likes Storage │
+│ • Python        │    │ • Python        │    │ • Immutable     │
+│ • Node.js       │    │ • JavaScript    │    │ • Decentralized │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
@@ -36,23 +37,35 @@ We'll build a simple likes counter system where your Web2 backend handles the AP
 - `initialize_sample_posts()` - Initializes sample posts (update call)
 - Tamper-proof and decentralized storage
 
-### 2. **Web2 API (Node.js + Express)**
-- `GET /health` - Health check endpoint
-- `GET /likes/:postId` - Get likes for a post
-- `POST /like/:postId` - Like a post
-- `GET /posts` - Get all posts with like counts
-- `POST /posts` - Create a new post
+### 2. **Multiple Web2 API Backends**
+
+The tutorial demonstrates three different Web2 service implementations:
+
+#### **Rust Backend** (`rust-backend/`)
+- Axum web framework with ICP Rust agent
+- High-performance, type-safe implementation
+- [Full Documentation](rust-backend/README.md) - Continue here to see the specific code implementation and logic
+
+#### **Python Backend** (`python-backend/`)
+- FastAPI with ICP Python agent (ic-py)
+- Fast development with modern async support
+- [Full Documentation](python-backend/README.md) - Continue here to see the specific code implementation and logic
+
+#### **Node.js Backend** (`node-backend/`)
+- Express.js server with ICP JavaScript agent
+- JavaScript ecosystem integration
+- [Full Documentation](node-backend/README.md) - Continue here to see the specific code implementation and logic
 
 ### 3. **Integration Layer**
-- DFINITY JavaScript agent for canister communication
+- Different ICP agents for each language
 - Server-side identity management
 - Error handling and response processing
 
-## Quick Start:
+## 🚀 Quick Start
 
 ### Prerequisites
-- [Environment Setup](../cheatsheet/environment-setup.md) - Complete setup guide for DFX, Node.js, and Rust
-- Basic knowledge of Rust and Node.js
+- [Environment Setup](../cheatsheet/environment-setup.md) - Complete setup guide for DFX, Node.js, Rust, and Python
+- Basic knowledge of at least one of: Rust, Python, or Node.js
 
 ### Step 1: Clone and Setup
 ```bash
@@ -70,16 +83,40 @@ generate-did post_likes_backend && dfx generate && dfx deploy
 
 # Initialize sample posts in the canister
 dfx canister call post_likes_backend initialize_sample_posts
-
-# Install Web2 API dependencies
-cd web2-api
-npm install
-
-# Run the server
-npm start
 ```
 
+### Step 2: Choose Your Backend
+
+#### **Option A: Rust Backend**
+```bash
+cd rust-backend
+cargo build --release
+cargo run --release
+# Server runs on http://localhost:3000
+```
+Continue to [Rust Backend Documentation](rust-backend/README.md) to see the specific code implementation and logic.
+
+#### **Option B: Python Backend**
+```bash
+cd python-backend
+pip install -r requirements.txt
+python main.py
+# Server runs on http://localhost:3002
+```
+Continue to [Python Backend Documentation](python-backend/README.md) to see the specific code implementation and logic.
+
+#### **Option C: Node.js Backend**
+```bash
+cd node-backend
+npm install
+npm start
+# Server runs on http://localhost:3000
+```
+Continue to [Node.js Backend Documentation](node-backend/README.md) to see the specific code implementation and logic.
+
 ## 📡 API Endpoints
+
+All three backends provide the same API endpoints:
 
 ### Health Check
 ```bash
@@ -89,7 +126,7 @@ GET /health
 ```json
 {
   "status": "OK",
-  "message": "Web2 API is running and connected to ICP"
+  "message": "[Backend] is running and connected to ICP"
 }
 ```
 
@@ -171,93 +208,47 @@ Content-Type: application/json
 - **Verifiable**: Anyone can verify the authenticity of like counts
 - **Cost-Effective**: ICP storage is significantly cheaper than traditional cloud storage
 
-### **How the Agent Works**
+### **How the Agents Work**
 
-The ICP JavaScript agent handles the communication between your Web2 API and the ICP canister. Here's how each component works:
+Each backend uses a different ICP agent implementation:
 
-#### 1. **Identity Management**: Creates cryptographic identity for server-side calls
-```javascript
-// Completely insecure seed phrase. Do not use for any purpose other than testing.
-const seed = process.env.SEED_PHRASE || 'test test test test test test test test test test test test';
+#### 1. **Rust Agent** ([Documentation](https://internetcomputer.org/docs/building-apps/interact-with-canisters/agents/rust-agent))
+- High-performance Rust implementation
+- Excellent type safety and memory efficiency
+- Ideal for production systems requiring maximum performance
 
-// Create identity from seed phrase
-let identity;
-try {
-  identity = Ed25519KeyIdentity.fromSeedPhrase(seed);
-} catch (error) {
-  console.warn('⚠️  Could not create identity from seed phrase, generating random identity');
-  identity = Ed25519KeyIdentity.generate();
-}
+#### 2. **Python Agent** ([Documentation](https://github.com/eliezhao/ic-py/tree/fix/issues))
+- Python-based agent using ic-py library
+- Great for data science and ML applications
+- Easy integration with Python ecosystem
 
-// Initialize the agent with the identity
-const agent = new HttpAgent({
-  identity,
-  host: process.env.DFX_NETWORK === 'local' ? 'http://127.0.0.1:4943' : 'https://ic0.app'
-});
-```
-
-**Reference**: [`web2-api/server.js` lines 25-40](web2-api/server.js#L25-L40)
-
-#### 2. **Request Encoding**: Converts JavaScript calls to Candid format
-```javascript
-// Create actor instance with the canister interface
-const actor = Actor.createActor(idlFactory, {
-  agent,
-  canisterId
-});
-
-// The agent automatically handles Candid encoding when you call canister methods
-const result = await actor.get_likes(postId);
-const posts = await actor.get_posts_with_likes();
-```
-
-**Reference**: [`web2-api/server.js` lines 42-50](web2-api/server.js#L42-L50) and method calls throughout the endpoints
-
-#### 3. **Network Communication**: Handles HTTP requests to ICP network
-```javascript
-// Fetch root key for local development
-if (process.env.DFX_NETWORK !== 'ic') {
-  agent.fetchRootKey().catch(console.warn);
-}
-
-// The agent handles all network communication, retries, and routing
-const newLikes = await actor.like(postId);
-```
-
-**Reference**: [`web2-api/server.js` lines 52-54](web2-api/server.js#L52-L54) and network calls like line 143
-
-#### 4. **Response Processing**: Decodes and verifies canister responses
-```javascript
-// Handle the Result type from Candid
-if (result.Ok !== undefined) {
-  res.json({ 
-    postId, 
-    likes: result.Ok.toString(),
-    message: 'Likes retrieved from ICP canister'
-  });
-} else if (result.Err !== undefined) {
-  res.status(400).json({ 
-    error: 'Failed to get likes',
-    details: result.Err 
-  });
-} else {
-  res.status(500).json({ 
-    error: 'Unexpected response format from ICP canister'
-  });
-}
-```
-
-**Reference**: [`web2-api/server.js` lines 70-86](web2-api/server.js#L70-L86) (get likes), lines 108-123 (create post), lines 145-161 (like post)
+#### 3. **Node.js Agent** ([Documentation](https://internetcomputer.org/docs/building-apps/interact-with-canisters/agents/javascript-agent))
+- JavaScript-based agent for Node.js environments
+- Easy to use with existing JavaScript/TypeScript codebases
+- Good for rapid prototyping and development
 
 ## 🔧 Configuration
 
 ### Environment Variables
-Create a `.env` file in the `web2-api` directory:
+
+Each backend requires similar environment variables:
+
 ```env
+# Rust Backend (export variables)
+export PORT=3000
+export DFX_NETWORK=local
+export POST_LIKES_BACKEND_CANISTER_ID=canister-id
+
+# Python Backend (.env file)
+PORT=3002
+DFX_NETWORK=local
+POST_LIKES_BACKEND_CANISTER_ID=canister-id
+
+# Node.js Backend (.env file)
 PORT=3000
 DFX_NETWORK=local
 POST_LIKES_BACKEND_CANISTER_ID=canister-id
-SEED_PHRASE=your-actual-secret-seed-phrase-here-make-it-long-enough
+SEED_PHRASE=your-actual-secret-seed-phrase-here
 ```
 
 ### Canister ID
@@ -274,7 +265,7 @@ This is because the `init()` function only runs on fresh installations, not on u
 
 ## 🚨 Error Handling
 
-The system includes comprehensive error handling:
+All three backends include comprehensive error handling:
 
 - **Invalid Post IDs**: Empty or malformed post identifiers
 - **Network Issues**: ICP network connectivity problems
@@ -288,18 +279,34 @@ The system includes comprehensive error handling:
 - **Error Messages**: Don't expose internal system details
 - **Rate Limiting**: Consider implementing rate limiting for production
 
+## 🏆 Backend Comparison
+
+| Feature | Rust | Python | Node.js |
+|---------|------|--------|---------|
+| **Performance** | Excellent | Good | Good |
+| **Type Safety** | Excellent | Good | Basic |
+| **Development Speed** | Medium | Fast | Fast |
+| **Memory Usage** | Low | Medium | Medium |
+| **Learning Curve** | High | Low | Low |
+| **Ecosystem** | Growing | Large | Large |
+| **Production Ready** | Yes | Yes | Yes |
+
 ## 🚀 Next Steps
 
 After completing this tutorial, you can:
 
-1. **Add Authentication**: Implement user authentication for like operations
-2. **Extend Data Model**: Add more fields to posts and likes
-3. **Implement Caching**: Cache frequently accessed like counts
-4. **Add Monitoring**: Track API performance and canister calls
-5. **Deploy to Mainnet**: Move from local development to production
+1. **Compare Implementations**: Try all three backends to see the differences
+2. **Add Authentication**: Implement user authentication for like operations
+3. **Extend Data Model**: Add more fields to posts and likes
+4. **Implement Caching**: Cache frequently accessed like counts
+5. **Add Monitoring**: Track API performance and canister calls
+6. **Deploy to Mainnet**: Move from local development to production
+7. **Benchmark Performance**: Compare the performance of all three backends
 
 ## 📚 Additional Resources
 
+- [ICP Rust Agent Documentation](https://internetcomputer.org/docs/building-apps/interact-with-canisters/agents/rust-agent)
+- [ICP Python Agent (ic-py)](https://github.com/eliezhao/ic-py/tree/fix/issues)
 - [ICP JavaScript Agent Documentation](https://internetcomputer.org/docs/building-apps/interact-with-canisters/agents/javascript-agent)
 - [Candid Interface Language](https://internetcomputer.org/docs/current/developer-docs/build/candid/candid-intro)
 - [DFINITY SDK Documentation](https://internetcomputer.org/docs/current/developer-docs/setup/install/)
@@ -312,6 +319,9 @@ This tutorial is part of the ICP learning examples. Feel free to:
 - Suggest improvements
 - Add new features
 - Share your own integration examples
+- Add more backend implementations
+
+Check out how to contribye [here](../../CONTRIBUTING.md)
 
 ## 📄 License
 
@@ -321,4 +331,4 @@ MIT License - feel free to use this code in your own projects!
 
 **Happy Building!**
 
-*This tutorial demonstrates the power of combining Web2 infrastructure with ICP's decentralized capabilities. Start simple, learn the patterns, and build something amazing!*
+*This tutorial demonstrates the power of combining Web2 infrastructure with ICP's decentralized capabilities across multiple programming languages. Choose your preferred language and start building something amazing!*
