@@ -1,14 +1,12 @@
 # Post Likes Rust Backend
 
-This is a Rust backend service that demonstrates how to use the ICP Rust agent to interact with a deployed post-likes canister on the Internet Computer.
+This is a Rust backend service that demonstrates how to use the ICP Rust agent to interact with a deployed [post-likes canister](../src/post_likes_backend/) on the Internet Computer.
 
 ## Features
 
-- **ICP Integration**: Uses the official ICP Rust agent (`ic-agent`) to communicate with canisters
+- **ICP Integration**: Uses the official [ICP Rust agent (`ic-agent`)](https://internetcomputer.org/docs/building-apps/interact-with-canisters/agents/rust-agent/) to communicate with canisters
 - **RESTful API**: Provides HTTP endpoints for all post-likes operations
 - **Async/Await**: Built with Tokio for high-performance async operations
-- **Error Handling**: Comprehensive error handling with detailed logging
-- **CORS Support**: Cross-origin resource sharing enabled for frontend integration
 
 ## API Endpoints
 
@@ -24,9 +22,7 @@ This is a Rust backend service that demonstrates how to use the ICP Rust agent t
 
 ## Prerequisites
 
-- Rust 1.70+ and Cargo
-- dfx (DFINITY Canister SDK)
-- A deployed post-likes backend canister
+See all prerequisites on deploying an ICP canister locally [here](../../../cheatsheet/environment-setup.md)
 
 ## Setup
 
@@ -59,7 +55,7 @@ This is a Rust backend service that demonstrates how to use the ICP Rust agent t
 4. **Deploy the post-likes backend canister** (if not already deployed):
    ```bash
    cd ../../
-   dfx deploy post_likes_backend
+   dfx start --clean --background && generate-did post_likes_backend && dfx generate && dfx deploy
    ```
 
 5. **Update the canister ID** in your `.env` file with the deployed canister ID from the previous step.
@@ -104,17 +100,17 @@ curl -X POST http://localhost:3000/posts \
 
 ### Get a Specific Post
 ```bash
-curl http://localhost:3000/posts/my-post-1
+curl http://localhost:3000/posts/post-1
 ```
 
 ### Get Likes for a Post
 ```bash
-curl http://localhost:3000/likes/my-post-1
+curl http://localhost:3000/likes/post-1
 ```
 
 ### Like a Post
 ```bash
-curl -X POST http://localhost:3000/like/my-post-1
+curl -X POST http://localhost:3000/like/post-1
 ```
 
 ### Get Posts with Likes
@@ -128,31 +124,12 @@ The application is structured as follows:
 
 - **`main.rs`**: Main application entry point with Axum web server setup
 - **`post_likes_client.rs`**: ICP agent client for interacting with the post-likes canister
-- **Data Structures**: Candid-compatible structs matching the canister interface
 
 ### Key Components
 
 1. **ICP Agent**: Handles communication with the Internet Computer
 2. **PostLikesClient**: High-level client for canister operations
 3. **Axum Router**: HTTP routing and request handling
-4. **Error Handling**: Comprehensive error handling with detailed logging
-
-## Error Handling
-
-The service provides detailed error messages and logging for debugging:
-
-- **Canister Errors**: Errors returned from the ICP canister
-- **Network Errors**: Connection issues with the Internet Computer
-- **Validation Errors**: Invalid input data
-- **Encoding/Decoding Errors**: Candid serialization issues
-
-## Logging
-
-The service uses the `tracing` crate for structured logging:
-
-- **Request Logging**: All incoming requests are logged
-- **Debug Information**: Detailed debug information for canister operations
-- **Error Logging**: Comprehensive error logging with context
 
 ## Development
 
@@ -210,12 +187,4 @@ This Rust implementation provides:
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## License
-
-This project is part of the ICP Tutorial Examples and follows the same licensing terms.
+You can check the contributing guidelines [here](../../../CONTRIBUTING.md)
