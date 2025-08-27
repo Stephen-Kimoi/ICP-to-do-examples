@@ -101,8 +101,13 @@ impl PostLikesClient {
         println!("[DEBUG] PostLikesClient: Getting all posts");
         std::io::stdout().flush().unwrap();
         
+        // Encode empty tuple as argument for methods that take ()
+        let args = Encode!(&())
+            .map_err(|e| anyhow::anyhow!("Failed to encode empty arguments: {}", e))?;
+        
         let response = self.agent
             .query(&self.canister_id, "get_posts")
+            .with_arg(args)
             .call()
             .await
             .map_err(|e| anyhow::anyhow!("Failed to get posts: {}", e))?;
@@ -120,8 +125,13 @@ impl PostLikesClient {
         println!("[DEBUG] PostLikesClient: Getting all posts with likes");
         std::io::stdout().flush().unwrap();
         
+        // Encode empty tuple as argument for methods that take ()
+        let args = Encode!(&())
+            .map_err(|e| anyhow::anyhow!("Failed to encode empty arguments: {}", e))?;
+        
         let response = self.agent
             .query(&self.canister_id, "get_posts_with_likes")
+            .with_arg(args)
             .call()
             .await
             .map_err(|e| anyhow::anyhow!("Failed to get posts with likes: {}", e))?;
