@@ -21,6 +21,9 @@ This repository is perfect for developers looking to learn, build, and experimen
 4. [Connecting custom domain to canister URL](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/canister-dns): 
     - Easily connect your custom domain to your canister URL, supporting both main domains and subdomains.
 
+5. [Calling a canister from a Web2 API](./examples/post-likes-tutorial/README.md)
+   - This tutorial demonstrates how to integrate your existing Web2 API with ICP canisters
+
 <!-- 3. Linking Tokens with a Backend Canister
     - Integrating tokens with backend logic
     - Secure and efficient token management
