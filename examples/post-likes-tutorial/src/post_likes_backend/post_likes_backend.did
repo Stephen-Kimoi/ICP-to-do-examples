@@ -1,0 +1,16 @@
+type Post = record {
+  id : text;
+  title : text;
+  content : text;
+  created_at : nat64;
+};
+type Result = variant { Ok : Post; Err : text };
+type Result_1 = variant { Ok : nat; Err : text };
+service : () -> {
+  create_post : (text, text, text) -> (Result);
+  get_likes : (text) -> (Result_1) query;
+  get_post : (text) -> (opt Post) query;
+  get_posts : () -> (vec Post) query;
+  get_posts_with_likes : () -> (vec record { Post; nat }) query;
+  like : (text) -> (Result_1);
+}
