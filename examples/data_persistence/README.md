@@ -2,7 +2,7 @@
 
 This project demonstrates how to implement **data persistence across canister upgrades** using the **[ic-stable-memory](https://github.com/seniorjoinu/ic-stable-memory)** library. 
 
-[![](https://icp.ninja/assets/open.svg)](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/ninja-compatibility/examples/data_persistence)
+[![](https://icp.ninja/assets/open.svg)](https://icp.ninja/editor?g=https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/ninja-compatibility/examples/data_persistence)
 
 To run the project locally, follow the instructions [here](./LOCAL.md)
 
@@ -53,7 +53,7 @@ Stable memory structures are initialized using the `thread_local!` macro to ensu
 - **Stable B-tree Map**: Stores notes with `id` as the key and `Note` as the value.
 - **Counter Cell**: Maintains a persistent counter for generating unique note IDs.
 
-Example [code snippet](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/4f3eb4343e69268bcbbab52f4fc392ac226d7f30/examples/data_persistence/src/data_persistence_backend/src/lib.rs#L44):
+Example [code snippet](./backend/lib.rs#L46): 
 ```rust
 thread_local! {
     static MEMORY_MANAGER: RefCell<MemoryManager<DefaultMemoryImpl>> = RefCell::new(
@@ -83,7 +83,7 @@ thread_local! {
 - Increments the counter to generate a unique id.
 - Adds the new note to the stable B-tree map.
 
-Example [code snippet](hhttps://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/4f3eb4343e69268bcbbab52f4fc392ac226d7f30/examples/data_persistence/src/data_persistence_backend/src/lib.rs#L76):
+Example [code snippet](./backend/lib.rs#L76):
 ```rust 
 #[ic_cdk::update]
 fn create_note(title: String, content: String) -> Note {
@@ -111,7 +111,7 @@ fn create_note(title: String, content: String) -> Note {
 #### **Retrieving a Note**
 Fetches a note by its unique id:
 
-Example [code snippet](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/4f3eb4343e69268bcbbab52f4fc392ac226d7f30/examples/data_persistence/src/data_persistence_backend/src/lib.rs#L105):
+Example [code snippet](./backend/lib.rs#L105):
 ```rust
 #[ic_cdk::query]
 fn get_note(id: u64) -> Option<Note> {
@@ -123,7 +123,7 @@ fn get_note(id: u64) -> Option<Note> {
 
 Updates the title and content of an existing note:
 
-Example [code snippet](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/4f3eb4343e69268bcbbab52f4fc392ac226d7f30/examples/data_persistence/src/data_persistence_backend/src/lib.rs#L119):
+Example [code snippet](./backend/lib.rs#L119):
 ```rust
 #[ic_cdk::update]
 fn update_note(id: u64, title: String, content: String) -> Option<Note> {
@@ -145,7 +145,7 @@ fn update_note(id: u64, title: String, content: String) -> Option<Note> {
 
 Deletes a note by removing it from the stable B-tree map:
 
-Example [code snippet](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/4f3eb4343e69268bcbbab52f4fc392ac226d7f30/examples/data_persistence/src/data_persistence_backend/src/lib.rs#L119):
+Example [code snippet](./backend/lib.rs#L119):
 ```rust
 #[ic_cdk::update]
 fn delete_note(id: u64) -> bool {
@@ -157,7 +157,7 @@ fn delete_note(id: u64) -> bool {
 
 Retrieves all notes in the system:
 
-Example [code snippet](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/4f3eb4343e69268bcbbab52f4fc392ac226d7f30/examples/data_persistence/src/data_persistence_backend/src/lib.rs#L150):
+Example [code snippet](./backend/lib.rs#L150):
 ```rust
 #[ic_cdk::query]
 fn list_notes() -> Vec<Note> {
@@ -184,7 +184,7 @@ fn list_notes() -> Vec<Note> {
 
    These traits are implemented for the `Note` struct to enable serialization and enforce size limits for stable storage.
 
-Example [code snippet](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/4f3eb4343e69268bcbbab52f4fc392ac226d7f30/examples/data_persistence/src/data_persistence_backend/src/lib.rs#L28):
+Example [code snippet](./backend/lib.rs#L28):
 ```rust
    impl Storable for Note {
        fn to_bytes(&self) -> Cow<[u8]> {
