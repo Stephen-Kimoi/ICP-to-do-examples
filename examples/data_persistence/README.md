@@ -2,6 +2,10 @@
 
 This project demonstrates how to implement **data persistence across canister upgrades** using the **[ic-stable-memory](https://github.com/seniorjoinu/ic-stable-memory)** library. 
 
+[![](https://icp.ninja/assets/open.svg)](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/ninja-compatibility/examples/data_persistence)
+
+To run the project locally, follow the instructions [here](./LOCAL.md)
+
 Stable storage ensures that critical application data is not lost during canister upgrades, making it essential for stateful applications.
 
 This example walks you through a simple **Note-taking application** backend, where data like notes and counters are stored persistently.
@@ -272,6 +276,3 @@ fn post_upgrade() {
 ### **Performing the canister upgrade**
 
 Once you've done this you can perform the canister upgrade by running the [following commands](https://github.com/Stephen-Kimoi/ICP-to-do-examples/blob/main/CHEATSHEAT.md#updating-content-security-policy-csp)
-
-
-

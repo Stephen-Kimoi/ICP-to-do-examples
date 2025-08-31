@@ -1,15 +1,10 @@
-import { useState, useEffect, SetStateAction } from 'react';
-import { data_persistence_backend } from '../declarations/data_persistence_backend';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import { backend as data_persistence_backend } from 'declarations/backend';
+import '/index.css';
 
-interface Note {
-  id: bigint;
-  title: string;
-  content: string;
-  created_at: bigint;
-}
-
-export default function App() {
-  const [notes, setNotes] = useState<Note[]>([]);
+const App = () => {
+  const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,12 +18,11 @@ export default function App() {
     fetchNotes();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       await data_persistence_backend.create_note(title, content); 
-      // setNotes([...notes, { id: BigInt(1), title, content, created_at: BigInt(1) }]);
       setTitle('');
       setContent('');
       fetchNotes();
@@ -37,7 +31,7 @@ export default function App() {
     }
   };
 
-  const handleDelete = async (id: bigint) => {
+  const handleDelete = async (id) => {
     await data_persistence_backend.delete_note(id);
     fetchNotes();
   };
@@ -104,4 +98,12 @@ export default function App() {
       </div>
     </div>
   );
-}
+};
+
+export default App;
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
