@@ -21,7 +21,7 @@ Use [ICPex Token Creator](https://icpex.org/createToken) to create your token wi
 [![](https://icp.ninja/assets/open.svg)](https://icp.ninja/i?g=https://github.com/dfinity/examples/rust/llm_chatbot)
 
 ### Basic Integration
-1. Initializing the ICP ledger. Check out function [here](../frontend/src/auth.js#L26)
+1. Initializing the ICP ledger. Check out function [here](../in_app_wallet/frontend/src/auth.js#L26)
 ```typescript
 // Import the ledger canister
 import { LedgerCanister } from "@dfinity/ledger-icp";
@@ -58,7 +58,7 @@ async initLedgers() {
 }
 ``` 
 
-2. Fetch ICP balance, check out the function [here](../frontend/src/auth.js#L47)
+2. Fetch ICP balance, check out the function [here](../in_app_wallet/frontend/src/auth.js#L47)
 ```typescript
 async getBalances() {
   const identity = this.getIdentity();
@@ -77,7 +77,7 @@ async getBalances() {
 }
 ```
 
-3. Transfer ICP token, check out the function [here](../frontend/src/auth.js#L68)
+3. Transfer ICP token, check out the function [here](../in_app_wallet/frontend/src/auth.js#L68)
 ```typescript
   async transferICP(toPrincipal, amount) {
     if (!this.ledgerCanister) return null;
@@ -115,7 +115,7 @@ npm i @dfinity/agent @dfinity/candid @dfinity/principal @dfinity/utils
 
 ### Basic Integration
 
-1. Initialize the ICRC ledger. Check out the function [here](../frontend/src/auth.js#L41)
+1. Initialize the ICRC ledger. Check out the function [here](../in_app_wallet/frontend/src/auth.js#L41)
 ```typescript
 import { IcrcLedgerCanister } from "@dfinity/ledger-icrc";
 import { Principal } from "@dfinity/principal";
@@ -135,7 +135,7 @@ async initLedgers() {
 }
 ``` 
 
-2. Fetch custom token balances. Check out the function [here](../frontend/src/auth.js#L58)
+2. Fetch custom token balances. Check out the function [here](../in_app_wallet/frontend/src/auth.js#L58)
 ```typescript
 async getBalances() {
   const identity = this.getIdentity();
@@ -151,7 +151,7 @@ async getBalances() {
 }
 ``` 
 
-3. Transfer custom token from one account to another. Check out the function [here](../frontend/src/auth.js#L93)
+3. Transfer custom token from one account to another. Check out the function [here](../in_app_wallet/frontend/src/auth.js#L93)
 ```typescript
 async transferINWT(toPrincipal, amount) {
   if (!this.icrcLedgerCanister) return null;
