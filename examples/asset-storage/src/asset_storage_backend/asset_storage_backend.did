@@ -1,9 +1,0 @@
-type File = record { id : nat64; data : blob };
-type Image = record { id : nat64; data : vec blob };
-service : {
-  get_all_files : () -> (vec File) query;
-  get_all_images : () -> (vec Image) query;
-  get_file : (nat64) -> (opt File) query;
-  upload_file : (blob) -> (nat64);
-  upload_image : (vec blob) -> (nat64);
-}

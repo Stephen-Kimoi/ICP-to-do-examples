@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
-import { asset_storage_backend } from 'declarations/asset_storage_backend';
+import React, { useState, useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import { backend } from 'declarations/backend';
 import JSZip from 'jszip';
 import mammoth from 'mammoth';
+import '/index.css';
 
-function App() {
+const App = () => {
   const [images, setImages] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -26,7 +28,7 @@ function App() {
       try {
         const imageData = new Uint8Array(reader.result);
         const chunks = Array.from(imageData);
-        const id = await asset_storage_backend.upload_image([chunks]);
+        const id = await backend.upload_image([chunks]);
         loadImages();
         setSelectedImage(null);
       } catch (error) {
@@ -50,7 +52,7 @@ function App() {
     reader.onload = async () => {
       try {
         const fileData = new Uint8Array(reader.result);
-        const id = await asset_storage_backend.upload_file(Array.from(fileData));
+        const id = await backend.upload_file(Array.from(fileData));
         setFileId(id);
         setSelectedFile(null);
       } catch (error) {
@@ -64,18 +66,18 @@ function App() {
   };
 
   const loadImages = async () => {
-    const allImages = await asset_storage_backend.get_all_images();
+    const allImages = await backend.get_all_images();
     setImages(allImages);
   };
 
   const loadFiles = async () => {
-    const allFiles = await asset_storage_backend.get_all_files();
+    const allFiles = await backend.get_all_files();
     console.log('All files:', allFiles);
     setFiles(allFiles);
   };
 
   const getFile = async (id) => {
-    const file = await asset_storage_backend.get_file(id);
+    const file = await backend.get_file(id);
     if (file) {
       const blob = new Blob([new Uint8Array(file.data)]);
       const url = URL.createObjectURL(blob);
@@ -242,6 +244,12 @@ function App() {
       </div> */}
     </div>
   );
-}
+};
 
 export default App;
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);

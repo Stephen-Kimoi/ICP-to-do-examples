@@ -1,27 +1,40 @@
 {
   "canisters": {
-    "asset_storage_backend": {
-    "type": "rust",
-    "package": "asset_storage_backend",
-    "candid": "src/asset_storage_backend/asset_storage_backend.did"
+    "backend": {
+      "candid": "backend/backend.did",
+      "type": "custom",
+      "shrink": true,
+      "gzip": true,
+      "wasm": "target/wasm32-unknown-unknown/release/backend.wasm",
+      "build": [
+        "cargo build --target wasm32-unknown-unknown --release -p backend",
+        "candid-extractor target/wasm32-unknown-unknown/release/backend.wasm > backend/backend.did"
+      ],
+      "metadata": [
+        {
+          "name": "candid:service"
+        }
+      ]
     },
-    "asset-storage-frontend": {
-      "dependencies": [
-        "asset_storage_backend"
-      ],
-      "source": [
-        "src/asset_storage_frontend/dist"
-      ],
-      "type": "assets",
-      "workspace": "asset_storage_frontend"
+    "frontend": {
+      "dependencies": ["backend"],
+      "frontend": {
+        "entrypoint": "frontend/index.html"
+      },
+      "source": ["frontend/dist"],
+      "type": "assets"
+    },
+    "llm": {
+      "candid": "https://github.com/dfinity/llm/releases/latest/download/llm-canister-ollama.did",
+      "type": "custom",
+      "specified_id": "w36hm-eqaaa-aaaal-qr76a-cai",
+      "remote": {
+        "id": {
+          "ic": "w36hm-eqaaa-aaaal-qr76a-cai"
+        }
+      },
+      "wasm": "https://github.com/dfinity/llm/releases/latest/download/llm-canister-ollama.wasm"
     }
   },
-  "defaults": {
-    "build": {
-      "args": "",
-      "packtool": ""
-    }
-  },
-  "output_env_file": ".env",
-  "version": 1
+  "output_env_file": ".env"
 }

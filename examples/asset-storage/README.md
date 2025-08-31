@@ -2,15 +2,7 @@
 
 This tutorial will guide you through the process of implementing image and file storage on the Internet Computer. We'll cover the backend implementation in Rust and the frontend implementation in JavaScript.
 
-```bash 
-git clone https://github.com/Stephen-Kimoi/ICP-to-do-examples.git
-
-cd ICP-to-do-examples/examples/asset-storage
-
-dfx start --clean --background
-
-npm run start
-``` 
+[![](https://icp.ninja/assets/open.svg)](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/asset-storage)
 
 You can now interact with the application by uploading images and files.
 
@@ -136,9 +128,11 @@ Function Breakdown:
 - Converts ```binary data``` to ``Blob``
 - Creates ``readable stream``
 
+## Running locally: 
+To run this project locally, follow the steps in [LOCAL.md file](./LOCAL.md)
+
 ## Note:
 
 ``Maximum chunk size``:  the maximum chunk size for an upload (both image and file) is around 2MB. This is because Internet Computer limits their message size limit to 2MB. [Link](https://internetcomputer.org/docs/current/developer-docs/smart-contracts/maintain/resource-limits)
 
 Meaning if you're uploading larger files, you'll need to need to implement a chunking mechanism. Which involves splitting the file into smaller chunks and uploading each chunk separately.
-
