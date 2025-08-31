@@ -1,5 +1,3 @@
 [workspace]
-members = [
-    "src/in_app_wallet_backend"
-]
+members = ["backend"]
 resolver = "2"
