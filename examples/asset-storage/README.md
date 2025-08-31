@@ -2,7 +2,7 @@
 
 This tutorial will guide you through the process of implementing image and file storage on the Internet Computer. We'll cover the backend implementation in Rust and the frontend implementation in JavaScript.
 
-[![](https://icp.ninja/assets/open.svg)](https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/asset-storage)
+[![](https://icp.ninja/assets/open.svg)](https://icp.ninja/editor?g=https://github.com/Stephen-Kimoi/ICP-to-do-examples/tree/main/examples/asset-storage)
 
 You can now interact with the application by uploading images and files.
 
