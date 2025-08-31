@@ -1,31 +1,40 @@
 {
   "canisters": {
-    "internet_identity" : {
-      "type": "pull",
-      "id": "rdmx6-jaaaa-aaaaa-aaadq-cai"
-    }, 
-    "in_app_wallet_backend": {
-      "candid": "src/in_app_wallet_backend/in_app_wallet_backend.did",
-      "package": "in_app_wallet_backend",
-      "type": "rust"
+    "backend": {
+      "candid": "backend/backend.did",
+      "type": "custom",
+      "shrink": true,
+      "gzip": true,
+      "wasm": "target/wasm32-unknown-unknown/release/backend.wasm",
+      "build": [
+        "cargo build --target wasm32-unknown-unknown --release -p backend",
+        "candid-extractor target/wasm32-unknown-unknown/release/backend.wasm > backend/backend.did"
+      ],
+      "metadata": [
+        {
+          "name": "candid:service"
+        }
+      ]
     },
-    "in_app_wallet_frontend": {
-      "dependencies": [
-        "in_app_wallet_backend"
-      ],
-      "source": [
-        "src/in_app_wallet_frontend/dist"
-      ],
-      "type": "assets",
-      "workspace": "in_app_wallet_frontend"
+    "frontend": {
+      "dependencies": ["backend"],
+      "frontend": {
+        "entrypoint": "frontend/index.html"
+      },
+      "source": ["frontend/dist"],
+      "type": "assets"
+    },
+    "llm": {
+      "candid": "https://github.com/dfinity/llm/releases/latest/download/llm-canister-ollama.did",
+      "type": "custom",
+      "specified_id": "w36hm-eqaaa-aaaal-qr76a-cai",
+      "remote": {
+        "id": {
+          "ic": "w36hm-eqaaa-aaaal-qr76a-cai"
+        }
+      },
+      "wasm": "https://github.com/dfinity/llm/releases/latest/download/llm-canister-ollama.wasm"
     }
   },
-  "defaults": {
-    "build": {
-      "args": "",
-      "packtool": ""
-    }
-  },
-  "output_env_file": ".env",
-  "version": 1
+  "output_env_file": ".env"
 }

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
 import { authManager } from './auth';
-import { useEffect } from 'react';
-import './App.css';
+import '/index.css';
 
-function App() {
+const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState('balance');
   const [principalID, setPrincipalID] = useState('');
@@ -194,6 +194,12 @@ function App() {
       )}
     </main>
   );
-}
+};
 
 export default App;
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
