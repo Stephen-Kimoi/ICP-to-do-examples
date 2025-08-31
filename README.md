@@ -39,7 +39,7 @@ This [Cheat Sheet file](cheatsheet/README.md) contains tutorials on how to navig
 ### Step A: When running on ICP Ninja: 
 All projects are compatible with ICP Ninja, just go to the respective folder and click on 
 
-[![](https://icp.ninja/assets/open.svg)](https://github.com/Stephen-Kimoi/ICP-to-do-examples/)
+[![](https://icp.ninja/assets/open.svg)](https://icp.ninja/editor?g=https://github.com/Stephen-Kimoi/ICP-to-do-examples/)
 
 ### Step B: When running locally
 1. Prerequisites:
